@@ -1,0 +1,5 @@
+# Base images used by the HA builder for each architecture.
+# These Alpine bases provide bashio (used in run.sh); nodejs is added in the Dockerfile.
+build_from:
+  aarch64: ghcr.io/hassio-addons/base:17.1.4
+  armv7: ghcr.io/hassio-addons/base:17.1.4

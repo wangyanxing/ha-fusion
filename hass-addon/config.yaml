@@ -1,0 +1,35 @@
+# Local Home Assistant add-on for the customized ha-fusion fork.
+# The slug is derived from the folder name for local add-ons.
+name: Fusion (Custom)
+version: "1.0.0"
+slug: ha_fusion_custom
+description: My customized ha-fusion dashboard (fork)
+arch:
+  - aarch64
+  - armv7
+
+# disable the docker default system init
+init: false
+
+# homepage of the add-on
+url: https://github.com/wangyanxing/ha-fusion
+
+# icon for the menu panel integration
+panel_icon: mdi:atom
+
+# allow non-administration users
+panel_admin: false
+
+# security profile
+apparmor: true
+
+# ingress feature for the add-on
+ingress: true
+ingress_stream: true
+
+# enable api to get host port
+hassio_api: true
+
+# port to expose, null defaults to disabled (only needed for query strings)
+ports:
+  8099/tcp: null

@@ -220,7 +220,7 @@
 							<Icon icon={icons['broken']} width="20" height="20" />
 						{/await}
 					{/if}
-				{:else if shape?.attrs?.type === 'image'}
+				{:else if shape?.attrs?.type === 'image' || shape?.attrs?.type === 'state-image'}
 					<div class="thumbnail">
 						<img
 							src={konvaStoreEquivalent?.attrs?.src}

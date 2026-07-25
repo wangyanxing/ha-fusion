@@ -54,6 +54,10 @@
 	<Icon icon={icons?.['state-icon']} width="20" height="20" />
 </button>
 
+<button title="Add New State Image" onclick={() => konva.addStateImage()}>
+	<Icon icon={icons?.['state-image']} width="20" height="20" />
+</button>
+
 <span class="divider"></span>
 
 <button title="Add New Text" onclick={() => konva.addText()}>

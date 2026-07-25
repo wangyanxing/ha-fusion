@@ -159,6 +159,44 @@
 				},
 				...commonTextAttributes
 			];
+		} else if (selectedShape?.attrs?.type === 'state-image') {
+			// STATE IMAGE
+			attributes = [
+				{
+					id: 'entity_id',
+					label: 'Entity',
+					type: 'text',
+					className: 'grow-item',
+					disabled: !selectedShape?.attrs?.draggable,
+					value: selectedShape?.attrs?.entity_id,
+					list: 'entityOptions'
+				},
+				{
+					id: 'src',
+					label: 'Source',
+					value: selectedShape?.attrs?.src,
+					type: 'text',
+					className: 'grow-item',
+					disabled: !selectedShape?.attrs?.draggable
+				},
+				{
+					id: 'width',
+					label: 'Width',
+					type: 'text',
+					unit: ' px',
+					value: selectedShape?.attrs?.width,
+					disabled: !selectedShape?.attrs?.draggable
+				},
+				{
+					id: 'height',
+					label: 'Height',
+					type: 'text',
+					unit: ' px',
+					value: selectedShape?.attrs?.height,
+					disabled: !selectedShape?.attrs?.draggable
+				},
+				{ ...opacity }
+			];
 		} else if (selectedShape?.attrs?.type === 'image') {
 			// IMAGE
 			attributes = [

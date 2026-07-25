@@ -197,6 +197,75 @@
 				},
 				{ ...opacity }
 			];
+		} else if (selectedShape?.attrs?.type === 'state-sun-image') {
+			// STATE SUN IMAGE (time-of-day base image driven by sun.sun)
+			attributes = [
+				{
+					id: 'src_day',
+					label: 'Day image',
+					value: selectedShape?.attrs?.src_day,
+					type: 'text',
+					className: 'grow-item',
+					disabled: !selectedShape?.attrs?.draggable
+				},
+				{
+					id: 'src_dusk',
+					label: 'Dusk image',
+					value: selectedShape?.attrs?.src_dusk,
+					type: 'text',
+					className: 'grow-item',
+					disabled: !selectedShape?.attrs?.draggable
+				},
+				{
+					id: 'src_night',
+					label: 'Night image',
+					value: selectedShape?.attrs?.src_night,
+					type: 'text',
+					className: 'grow-item',
+					disabled: !selectedShape?.attrs?.draggable
+				},
+				{
+					id: 'sunrise_offset',
+					label: 'Day after sunrise',
+					type: 'text',
+					unit: ' min',
+					value: selectedShape?.attrs?.sunrise_offset ?? 30,
+					disabled: !selectedShape?.attrs?.draggable
+				},
+				{
+					id: 'dusk_before',
+					label: 'Dusk before sunset',
+					type: 'text',
+					unit: ' min',
+					value: selectedShape?.attrs?.dusk_before ?? 30,
+					disabled: !selectedShape?.attrs?.draggable
+				},
+				{
+					id: 'night_after',
+					label: 'Night after sunset',
+					type: 'text',
+					unit: ' min',
+					value: selectedShape?.attrs?.night_after ?? 120,
+					disabled: !selectedShape?.attrs?.draggable
+				},
+				{
+					id: 'width',
+					label: 'Width',
+					type: 'text',
+					unit: ' px',
+					value: selectedShape?.attrs?.width,
+					disabled: !selectedShape?.attrs?.draggable
+				},
+				{
+					id: 'height',
+					label: 'Height',
+					type: 'text',
+					unit: ' px',
+					value: selectedShape?.attrs?.height,
+					disabled: !selectedShape?.attrs?.draggable
+				},
+				{ ...opacity }
+			];
 		} else if (selectedShape?.attrs?.type === 'image') {
 			// IMAGE
 			attributes = [

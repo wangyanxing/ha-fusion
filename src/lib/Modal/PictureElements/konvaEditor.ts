@@ -738,8 +738,8 @@ export class KonvaEditor extends KonvaBase {
 				shapes.forEach((node) => {
 					if (!this.transformer.nodes().includes(node)) {
 						if (node instanceof Konva.Image) {
-							// state-image is not previewed by state in the editor
-							if (node.attrs.type !== 'state-image') {
+							// state-image / state-sun-image are not previewed by state in the editor
+							if (node.attrs.type !== 'state-image' && node.attrs.type !== 'state-sun-image') {
 								this.updateStateIcon(node, $states);
 							}
 						} else if (node instanceof Konva.Text) {
@@ -939,7 +939,8 @@ export class KonvaEditor extends KonvaBase {
 				case 'image':
 				case 'icon':
 				case 'state-icon':
-				case 'state-image': {
+				case 'state-image':
+				case 'state-sun-image': {
 					node = new Konva.Image(attrs);
 
 					const imageCache = get(konvaImageCache)?.[this?.selId]?.[attrs?.id];
@@ -1344,6 +1345,16 @@ export class KonvaEditor extends KonvaBase {
 
 			case type === 'state-image' && key === 'entity_id' && node instanceof Konva.Image:
 				node.setAttr('entity_id', value);
+				break;
+
+			case type === 'state-sun-image' &&
+				(key === 'src_day' || key === 'src_dusk' || key === 'src_night') &&
+				node instanceof Konva.Image:
+				node.setAttr(key, value);
+				// preview the day image in the editor when it changes
+				if (key === 'src_day' && value) {
+					await this.updateImage(node, value, true);
+				}
 				break;
 
 			case type === 'icon' && key === 'color' && node instanceof Konva.Image:
@@ -1953,6 +1964,60 @@ export class KonvaEditor extends KonvaBase {
 				entity_id: '',
 				image: undefined,
 				src,
+				width: 100,
+				height: 100,
+				draggable: true
+			});
+
+			this.handleAddNode(node);
+			await this.updateImage(node, src, false);
+		}
+	}
+
+	/**
+	 * Add sun image (time-of-day base image driven by sun.sun)
+	 */
+	public async addSunImage() {
+		const src = 'https://demo.home-assistant.io/stub_config/t-shirt-promo.png';
+
+		try {
+			const image = await this.loadImage(src);
+
+			const node = new Konva.Image({
+				type: 'state-sun-image',
+				name: 'Sun Image',
+				// fixed entity so the node joins the states subscription and
+				// reacts to sun.sun flips (period timing is driven by timer)
+				entity_id: 'sun.sun',
+				image,
+				src,
+				src_day: src,
+				src_dusk: '',
+				src_night: '',
+				sunrise_offset: 30,
+				dusk_before: 30,
+				night_after: 120,
+				width: image.naturalWidth || 64,
+				height: image.naturalHeight || 64,
+				draggable: true
+			});
+
+			this.handleAddNode(node);
+		} catch (err) {
+			console.error('error adding state-sun-image:', err);
+
+			const node = new Konva.Image({
+				type: 'state-sun-image',
+				name: 'Sun Image',
+				entity_id: 'sun.sun',
+				image: undefined,
+				src,
+				src_day: src,
+				src_dusk: '',
+				src_night: '',
+				sunrise_offset: 30,
+				dusk_before: 30,
+				night_after: 120,
 				width: 100,
 				height: 100,
 				draggable: true

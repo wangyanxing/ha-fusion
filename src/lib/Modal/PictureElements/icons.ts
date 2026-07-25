@@ -40,6 +40,7 @@ export const icons: Record<string, string> = {
 	'state-label': 'majesticons:comment-text',
 	'state-icon': 'mdi:lightbulb',
 	'state-image': 'mdi:lightbulb-on',
+	'state-sun-image': 'mdi:weather-sunset',
 	icon: 'mdi:shape',
 	image: 'mdi:image',
 	rectangle: 'ic:round-rectangle',

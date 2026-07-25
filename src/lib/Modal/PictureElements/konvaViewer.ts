@@ -1,7 +1,7 @@
 import Konva from 'konva';
 import { KonvaBase } from '$lib/Modal/PictureElements/konvaBase';
 import { get } from 'svelte/store';
-import { editMode, states, connection } from '$lib/Stores';
+import { editMode, states, connection, timer } from '$lib/Stores';
 import { callService } from 'home-assistant-js-websocket';
 import type { ContainerConfig } from 'konva/lib/Container';
 
@@ -9,11 +9,15 @@ import type { ContainerConfig } from 'konva/lib/Container';
  * Picture elements
  */
 export class KonvaViewer extends KonvaBase {
+	// ticks `state-sun-image` nodes so the day period is re-evaluated
+	private unsubscribeTimer: (() => void) | undefined;
+
 	constructor(container: HTMLDivElement, data: ContainerConfig) {
 		super(container, data);
 
 		this.handleMount();
 		this.subscribeStates();
+		this.subscribeTimer();
 	}
 
 	/**
@@ -54,6 +58,18 @@ export class KonvaViewer extends KonvaBase {
 								node.setAttr('targetOpacity', node.opacity());
 							}
 							node.opacity(0);
+							if (node.getAttr('id')) {
+								const image = node.image();
+								if (image instanceof HTMLImageElement) {
+									this.updateImageCache(node.getAttr('id') as string, image);
+								}
+							}
+							break;
+						case 'state-sun-image':
+							if (typeof node.getAttr('targetOpacity') !== 'number') {
+								node.setAttr('targetOpacity', node.opacity());
+							}
+							await this.updateSunImage(node, undefined);
 							if (node.getAttr('id')) {
 								const image = node.image();
 								if (image instanceof HTMLImageElement) {
@@ -135,6 +151,8 @@ export class KonvaViewer extends KonvaBase {
 					if (node instanceof Konva.Image) {
 						if (node.attrs.type === 'state-image') {
 							this.updateStateImage(node, $states);
+						} else if (node.attrs.type === 'state-sun-image') {
+							this.updateSunImage(node, $states);
 						} else {
 							this.updateStateIcon(node, $states);
 						}
@@ -143,6 +161,23 @@ export class KonvaViewer extends KonvaBase {
 					}
 				});
 			}
+		});
+	}
+
+	/**
+	 * Ticks the clock so `state-sun-image` nodes re-evaluate their day
+	 * period over time (sun.sun state alone flips only twice a day, which
+	 * can't cover the offset thresholds like "30 min before sunset").
+	 * `updateSunImage` no-ops unless the period actually changes.
+	 */
+	private subscribeTimer() {
+		this.unsubscribeTimer = timer.subscribe(() => {
+			if (!this.layer) return;
+			this.layer
+				.getChildren((node) => node?.attrs?.type === 'state-sun-image')
+				.forEach((node) => {
+					if (node instanceof Konva.Image) this.updateSunImage(node, undefined);
+				});
 		});
 	}
 
@@ -273,6 +308,8 @@ export class KonvaViewer extends KonvaBase {
 			} else if (type === 'state-image') {
 				await this.updateImage(node, node.getAttr('src'), false);
 				this.updateStateImage(node, undefined);
+			} else if (type === 'state-sun-image') {
+				await this.updateSunImage(node, undefined);
 			}
 		}
 
@@ -311,6 +348,13 @@ export class KonvaViewer extends KonvaBase {
 				}
 				node.opacity(0);
 				this.updateStateImage(node, undefined);
+				break;
+			case 'state-sun-image':
+				node = new Konva.Image(attrs);
+				if (typeof node.getAttr('targetOpacity') !== 'number') {
+					node.setAttr('targetOpacity', node.opacity());
+				}
+				await this.updateSunImage(node, undefined);
 				break;
 			case 'image':
 				node = new Konva.Image(attrs);
@@ -376,6 +420,7 @@ export class KonvaViewer extends KonvaBase {
 	 */
 	public destroyViewer() {
 		this.unsubscribe?.();
+		this.unsubscribeTimer?.();
 		super.destroyBase();
 	}
 }

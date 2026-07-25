@@ -184,6 +184,110 @@ export class KonvaBase {
 	}
 
 	/**
+	 * Computes the current day period for a `state-sun-image` node from
+	 * the `sun.sun` entity and the configured offsets (minutes):
+	 * - day:   from sunrise + `sunrise_offset`  to  sunset - `dusk_before`
+	 * - dusk:  from sunset - `dusk_before`      to  sunset + `night_after`
+	 * - night: otherwise
+	 *
+	 * `sun.sun` exposes `next_rising` / `next_setting` (ISO). Depending on
+	 * whether the sun is up or down, one of these is "today" and the other
+	 * "tomorrow"/"earlier today", so both today's sunrise and sunset are
+	 * derived by shifting the far one by a day.
+	 */
+	protected computeSunPeriod(
+		node: Konva.Image,
+		$states: HassEntities | undefined
+	): 'day' | 'dusk' | 'night' {
+		if (!$states) $states = get(states);
+
+		const sun = $states?.['sun.sun'];
+		const nextRising = sun?.attributes?.next_rising;
+		const nextSetting = sun?.attributes?.next_setting;
+		if (!nextRising || !nextSetting) return 'day';
+
+		const DAY = 24 * 60 * 60 * 1000;
+		const now = Date.now();
+		const isUp = sun?.state === 'above_horizon';
+
+		// today's sunset/sunrise instants
+		const sunset = isUp ? new Date(nextSetting).getTime() : new Date(nextSetting).getTime() - DAY;
+		const sunrise = isUp ? new Date(nextRising).getTime() - DAY : new Date(nextRising).getTime();
+
+		const min = 60 * 1000;
+		const sunriseOffset = Number(node.getAttr('sunrise_offset') ?? 30) * min;
+		const duskBefore = Number(node.getAttr('dusk_before') ?? 30) * min;
+		const nightAfter = Number(node.getAttr('night_after') ?? 120) * min;
+
+		const dayStart = sunrise + sunriseOffset;
+		const duskStart = sunset - duskBefore;
+		const nightStart = sunset + nightAfter;
+
+		if (now >= dayStart && now < duskStart) return 'day';
+		if (now >= duskStart && now < nightStart) return 'dusk';
+		return 'night';
+	}
+
+	/**
+	 * Handles updating `state-sun-image`
+	 * - picks the src for the current day period (day/dusk/night)
+	 * - cross-fades to it when the period changes
+	 */
+	protected async updateSunImage(node: Konva.Image, $states: HassEntities | undefined) {
+		const period = this.computeSunPeriod(node, $states);
+
+		const src =
+			period === 'day'
+				? node.getAttr('src_day')
+				: period === 'dusk'
+					? node.getAttr('src_dusk')
+					: node.getAttr('src_night');
+		if (!src) return;
+
+		// nothing to do if this period's image is already shown
+		if (node.getAttr('src') === src && node.getAttr('_sunPeriod') === period) return;
+		node.setAttr('_sunPeriod', period);
+
+		let targetOpacity = node.getAttr('targetOpacity');
+		if (typeof targetOpacity !== 'number') {
+			targetOpacity = typeof node.getAttr('opacity') === 'number' ? node.opacity() : 1;
+			node.setAttr('targetOpacity', targetOpacity);
+		}
+
+		// fade out, swap the image, fade back in
+		const prevTween = node.getAttr('_stateTween');
+		if (prevTween) prevTween.destroy();
+
+		const swap = async () => {
+			await this.updateImage(node, src, false);
+			const fadeIn = new Konva.Tween({
+				node,
+				opacity: targetOpacity,
+				duration: 0.4,
+				easing: Konva.Easings.EaseInOut
+			});
+			node.setAttr('_stateTween', fadeIn);
+			fadeIn.play();
+		};
+
+		// on first paint (no image yet) just load without fading out
+		if (!node.image()) {
+			await swap();
+			return;
+		}
+
+		const fadeOut = new Konva.Tween({
+			node,
+			opacity: 0,
+			duration: 0.4,
+			easing: Konva.Easings.EaseInOut,
+			onFinish: swap
+		});
+		node.setAttr('_stateTween', fadeOut);
+		fadeOut.play();
+	}
+
+	/**
 	 * Update image
 	 * - Sets gray placeholder on error
 	 */
@@ -458,6 +562,17 @@ export class KonvaBase {
 					...attrs,
 					entity_id: node.getAttr('entity_id'),
 					src: node.getAttr('src')
+				};
+			} else if (type === 'state-sun-image') {
+				attrs = {
+					...attrs,
+					src: node.getAttr('src'),
+					src_day: node.getAttr('src_day'),
+					src_dusk: node.getAttr('src_dusk'),
+					src_night: node.getAttr('src_night'),
+					sunrise_offset: node.getAttr('sunrise_offset'),
+					dusk_before: node.getAttr('dusk_before'),
+					night_after: node.getAttr('night_after')
 				};
 			}
 		} else if (node instanceof Konva.Text) {

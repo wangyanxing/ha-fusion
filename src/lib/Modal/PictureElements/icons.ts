@@ -39,6 +39,7 @@ export const icons: Record<string, string> = {
 	zoom: 'streamline:magnifying-glass-solid',
 	'state-label': 'majesticons:comment-text',
 	'state-icon': 'mdi:lightbulb',
+	'state-image': 'mdi:lightbulb-on',
 	icon: 'mdi:shape',
 	image: 'mdi:image',
 	rectangle: 'ic:round-rectangle',

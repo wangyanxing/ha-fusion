@@ -140,6 +140,43 @@ export class KonvaBase {
 	}
 
 	/**
+	 * Handles updating `state-image`
+	 * - reads entity state and tweens node opacity
+	 * - on  -> fade to configured target opacity
+	 * - off -> fade to 0
+	 * target opacity is stored in `targetOpacity` (defaults to the
+	 * persisted `opacity`, or 1 when unset)
+	 */
+	protected updateStateImage(node: Konva.Image, $states: HassEntities | undefined) {
+		const entity_id = node.getAttr('entity_id');
+
+		let targetOpacity = node.getAttr('targetOpacity');
+		if (typeof targetOpacity !== 'number') {
+			targetOpacity = typeof node.getAttr('opacity') === 'number' ? node.opacity() : 1;
+			node.setAttr('targetOpacity', targetOpacity);
+		}
+
+		if (!$states) $states = get(states);
+
+		const isOn = !!entity_id && $states?.[entity_id]?.state === 'on';
+		const nextOpacity = isOn ? targetOpacity : 0;
+
+		if (node.opacity() === nextOpacity) return;
+
+		const prevTween = node.getAttr('_stateTween');
+		if (prevTween) prevTween.destroy();
+
+		const tween = new Konva.Tween({
+			node,
+			opacity: nextOpacity,
+			duration: 0.25,
+			easing: Konva.Easings.EaseInOut
+		});
+		node.setAttr('_stateTween', tween);
+		tween.play();
+	}
+
+	/**
 	 * Update image
 	 * - Sets gray placeholder on error
 	 */
@@ -408,6 +445,12 @@ export class KonvaBase {
 					entity_id: node.getAttr('entity_id'),
 					state_color: node.getAttr('state_color'),
 					color: node.getAttr('color')
+				};
+			} else if (type === 'state-image') {
+				attrs = {
+					...attrs,
+					entity_id: node.getAttr('entity_id'),
+					src: node.getAttr('src')
 				};
 			}
 		} else if (node instanceof Konva.Text) {

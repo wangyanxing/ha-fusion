@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { KonvaViewer } from '$lib/Modal/PictureElements/konvaViewer';
 	import { onDestroy, onMount, tick } from 'svelte';
-	import { dashboard, editMode, itemHeight } from '$lib/Stores';
+	import { dashboard, editMode } from '$lib/Stores';
 	import { openModal } from '$lib/Modals';
 	import type { Dashboard } from '$lib/Types';
 	import { loadIcons } from '@iconify/svelte';
@@ -11,6 +11,7 @@
 
 	let konva: KonvaViewer;
 	let canvas: HTMLDivElement;
+	let resizeObserver: ResizeObserver | undefined;
 
 	/**
 	 * Setup konva by importing it on
@@ -36,6 +37,15 @@
 					}
 				]
 			});
+
+			// keep the stage sized to the container and refit content
+			resizeObserver = new ResizeObserver(() => {
+				if (!konva || !canvas) return;
+				konva.stage.width(canvas.offsetWidth);
+				konva.stage.height(canvas.offsetHeight);
+				konva.fitContent();
+			});
+			resizeObserver.observe(canvas);
 		}
 	});
 
@@ -77,6 +87,7 @@
 	 * Konva cleanup on destroy
 	 */
 	onDestroy(() => {
+		resizeObserver?.disconnect();
 		if (konva) konva.destroyViewer();
 	});
 </script>
@@ -84,8 +95,8 @@
 <div
 	onclick={handleClick}
 	bind:this={canvas}
+	data-picture-elements
 	style:cursor={$editMode ? 'unset' : 'default'}
-	style:height="calc({$itemHeight}px * 4 + 0.4rem * 3)"
 	style:background-color={!sel?.elements?.length
 		? 'var(--theme-button-background-color-off)'
 		: 'transparent'}
@@ -93,8 +104,8 @@
 
 <style>
 	div {
-		width: calc(14.5rem * 2 + 0.4rem);
-		border-radius: 1rem;
+		width: 100%;
+		aspect-ratio: 2824 / 2228;
 		border-radius: 0.6rem;
 		overflow: hidden;
 	}

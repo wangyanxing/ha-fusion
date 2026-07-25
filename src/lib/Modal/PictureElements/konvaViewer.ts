@@ -83,6 +83,42 @@ export class KonvaViewer extends KonvaBase {
 				}
 			})
 		);
+
+		this.fitContent();
+	}
+
+	/**
+	 * Scales and centers the layer so all content fits (contain)
+	 * inside the stage regardless of the size it was authored at.
+	 * Scaling the layer keeps every element's relative alignment.
+	 */
+	public fitContent() {
+		if (!this.layer || !this.stage) return;
+
+		const children = this.layer.getChildren(
+			(node) => node instanceof Konva.Shape || node instanceof Konva.Group
+		);
+		if (children.length === 0) return;
+
+		// reset transform to measure content in layer coordinates
+		this.layer.scale({ x: 1, y: 1 });
+		this.layer.position({ x: 0, y: 0 });
+
+		const box = this.layer.getClientRect({ relativeTo: this.layer });
+		if (!box.width || !box.height) return;
+
+		const stageWidth = this.stage.width();
+		const stageHeight = this.stage.height();
+
+		const scale = Math.min(stageWidth / box.width, stageHeight / box.height);
+
+		this.layer.scale({ x: scale, y: scale });
+		this.layer.position({
+			x: (stageWidth - box.width * scale) / 2 - box.x * scale,
+			y: (stageHeight - box.height * scale) / 2 - box.y * scale
+		});
+
+		this.layer.batchDraw();
 	}
 
 	/**
@@ -190,6 +226,8 @@ export class KonvaViewer extends KonvaBase {
 					}
 				})
 		);
+
+		this.fitContent();
 	}
 
 	/**

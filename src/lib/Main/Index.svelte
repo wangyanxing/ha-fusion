@@ -15,7 +15,12 @@
 	const stackHeight = $itemHeight * 1.65;
 
 	let mounted = $state(false);
-	onMount(() => (mounted = true));
+	let mainEl = $state<HTMLElement>();
+	onMount(() => {
+		mounted = true;
+		mainEl?.addEventListener('dndreceive', handleSectionReceive);
+		return () => mainEl?.removeEventListener('dndreceive', handleSectionReceive);
+	});
 
 	function handleDragStart() {
 		$dragging = true;
@@ -52,6 +57,84 @@
 		return true;
 	}
 
+	/**
+	 * Recursively removes a section (by id) from anywhere in the
+	 * view.sections tree (top level or inside any stack) and returns it.
+	 */
+	function removeSectionById(sections: any[], id: string): any | undefined {
+		const index = sections.findIndex((s) => String(s?.id) === id);
+		if (index !== -1) {
+			return sections.splice(index, 1)[0];
+		}
+		for (const section of sections) {
+			if (Array.isArray(section?.sections)) {
+				const found = removeSectionById(section.sections, id);
+				if (found) return found;
+			}
+		}
+		return undefined;
+	}
+
+	/**
+	 * Finds a stack's `.sections` array by the stack's id.
+	 */
+	function findStackSections(sections: any[], id: string): any[] | undefined {
+		for (const section of sections) {
+			if (String(section?.id) === id && Array.isArray(section?.sections)) {
+				return section.sections;
+			}
+			if (Array.isArray(section?.sections)) {
+				const found = findStackSections(section.sections, id);
+				if (found) return found;
+			}
+		}
+		return undefined;
+	}
+
+	/**
+	 * Handles cross-container section moves (section <-> stack).
+	 * SortableJS moved the DOM then `sortable.ts` reverted it and
+	 * dispatched `dndreceive`; here we mirror that move in the data.
+	 * Only containers tagged with `data-sections-of` participate, so
+	 * item moves (which lack the attribute) are ignored.
+	 */
+	function handleSectionReceive(event: Event) {
+		const detail = (event as CustomEvent).detail as { id: string; newIndex: number };
+		const container = (event.target as HTMLElement)?.closest('[data-sections-of]') as HTMLElement;
+		if (!container || !detail?.id) return;
+
+		const targetKey = container.dataset.sectionsOf;
+		if (!targetKey) return;
+
+		const moved = removeSectionById(view.sections, detail.id);
+		if (!moved) return;
+
+		const targetArr =
+			targetKey === 'root' ? view.sections : findStackSections(view.sections, targetKey);
+		if (!targetArr) return;
+
+		const index = Math.max(0, Math.min(detail.newIndex ?? targetArr.length, targetArr.length));
+		targetArr.splice(index, 0, moved);
+
+		dashboard.update((d) => JSON.parse(JSON.stringify(d)));
+		$record();
+	}
+
+	/**
+	 * Builds a horizontal-stack's column template from each child
+	 * section's optional `width` weight (defaults to 1), so widths
+	 * like 2:1 produce a 2/3 : 1/3 split instead of equal columns.
+	 */
+	function stackColumns(sections: any[] | undefined): string {
+		if (!sections?.length) return '';
+		return sections
+			.map((s) => {
+				const weight = Number(s?.width);
+				return `${Number.isFinite(weight) && weight > 0 ? weight : 1}fr`;
+			})
+			.join(' ');
+	}
+
 	function sectionStyles(sectionType: string, editMode: boolean, motion: number, empty: boolean) {
 		return `
 			min-height: ${sectionType === 'scenes' ? '4.8rem' : `${$itemHeight}px`};
@@ -64,13 +147,13 @@
 	}
 
 	function itemStyles(type: string) {
-		const large = [
-			'conditional_media',
-			'picture_elements',
-			'camera',
-			'spotify_player_large',
-			'entities'
-		];
+		const large = ['conditional_media', 'camera', 'spotify_player_large', 'entities'];
+		if (type === 'picture_elements') {
+			return `
+			grid-column: 1 / -1;
+			display: ${type ? '' : 'none'};
+    `;
+		}
 		return `
 			grid-column: ${large.includes(type) ? 'span 2' : 'span 1'};
 			grid-row: ${large.includes(type) ? 'span 4' : 'span 1'};
@@ -88,6 +171,8 @@
 </script>
 
 <main
+	bind:this={mainEl}
+	data-sections-of="root"
 	style:transition="opacity {$motion}ms ease, outline-color {$motion}ms ease"
 	style:opacity={$editMode && view?.sections.length === 0 ? '0' : '1'}
 	use:sortable={{
@@ -112,6 +197,8 @@
 
 				<div
 					class="horizontal-stack"
+					data-sections-of={String(section?.id)}
+					style:grid-template-columns={stackColumns(section?.sections)}
 					style:min-height="{stackHeight}px"
 					style:outline="2px dashed {$editMode ? '#ffc008' : 'transparent'}"
 					style:transition="min-height {$motion}ms ease, outline {$motion / 2}ms ease"
@@ -153,6 +240,7 @@
 
 								<div
 									class="vertical-stack nested"
+									data-sections-of={String(stackSection?.id)}
 									style:min-height="{stackHeight}px"
 									style:outline="2px dashed {$editMode ? '#08c7ff' : 'transparent'}"
 									style:transition="min-height {$motion}ms ease, outline {$motion / 2}ms ease"
@@ -293,6 +381,7 @@
 
 				<div
 					class="vertical-stack"
+					data-sections-of={String(section?.id)}
 					style:min-height="{stackHeight}px"
 					style:outline="2px dashed {$editMode ? '#08c7ff' : 'transparent'}"
 					style:transition="min-height {$motion}ms ease, outline {$motion / 2}ms ease"
@@ -482,6 +571,12 @@
 		gap: 0.4rem;
 		border-radius: 0.6rem;
 		height: 100%;
+	}
+
+	/* a section holding a picture-elements fills the whole width
+	   instead of snapping to the fixed 14.5rem column grid */
+	.items:has(:global([data-picture-elements])) {
+		grid-template-columns: 1fr;
 	}
 
 	.item {

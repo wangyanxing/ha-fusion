@@ -48,6 +48,19 @@ export class KonvaViewer extends KonvaBase {
 						case 'state-icon':
 							await this.updateIcon(node);
 							break;
+						case 'state-image':
+							await this.updateImage(node, node.getAttr('src'), false);
+							if (typeof node.getAttr('targetOpacity') !== 'number') {
+								node.setAttr('targetOpacity', node.opacity());
+							}
+							node.opacity(0);
+							if (node.getAttr('id')) {
+								const image = node.image();
+								if (image instanceof HTMLImageElement) {
+									this.updateImageCache(node.getAttr('id') as string, image);
+								}
+							}
+							break;
 						case 'image':
 							await this.updateImage(node, node.getAttr('src'), false);
 							if (node.getAttr('id')) {
@@ -84,7 +97,11 @@ export class KonvaViewer extends KonvaBase {
 				);
 				nodes.forEach((node) => {
 					if (node instanceof Konva.Image) {
-						this.updateStateIcon(node, $states);
+						if (node.attrs.type === 'state-image') {
+							this.updateStateImage(node, $states);
+						} else {
+							this.updateStateIcon(node, $states);
+						}
 					} else if (node instanceof Konva.Text) {
 						this.updateStateLabel(node, $states);
 					}
@@ -215,6 +232,9 @@ export class KonvaViewer extends KonvaBase {
 				await this.updateIcon(node);
 			} else if (type === 'image') {
 				await this.updateImage(node, node.getAttr('src'), false);
+			} else if (type === 'state-image') {
+				await this.updateImage(node, node.getAttr('src'), false);
+				this.updateStateImage(node, undefined);
 			}
 		}
 
@@ -244,6 +264,15 @@ export class KonvaViewer extends KonvaBase {
 			case 'icon':
 				node = new Konva.Image(attrs);
 				await this.updateIcon(node);
+				break;
+			case 'state-image':
+				node = new Konva.Image(attrs);
+				await this.updateImage(node, attrs?.src, false);
+				if (typeof node.getAttr('targetOpacity') !== 'number') {
+					node.setAttr('targetOpacity', node.opacity());
+				}
+				node.opacity(0);
+				this.updateStateImage(node, undefined);
 				break;
 			case 'image':
 				node = new Konva.Image(attrs);

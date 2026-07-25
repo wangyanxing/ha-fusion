@@ -39,7 +39,13 @@ export interface Views {
 }
 
 export type Item =
-	ButtonItem | CameraItem | EmptyItem | DaysSinceItem | EntitiesItem | SpotifyPlayerItem;
+	| ButtonItem
+	| CameraItem
+	| EmptyItem
+	| DaysSinceItem
+	| EntitiesItem
+	| SpotifyPlayerItem
+	| ThermostatItem;
 
 export interface Section {
 	id?: number;
@@ -123,6 +129,14 @@ export interface DaysSinceItem {
 	icon?: string;
 	color?: string;
 	entity_id?: string; // input_datetime entity that stores the last reset timestamp
+}
+
+export interface ThermostatItem {
+	type: string;
+	id: number;
+	entity_id?: string; // climate.* entity
+	name?: string;
+	more_info?: boolean;
 }
 
 export interface SpotifyShortcut {

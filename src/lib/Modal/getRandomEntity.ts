@@ -158,3 +158,12 @@ export function getCameraEntity(states: HassEntities) {
 	const entity = random(filtered);
 	if (entity) return entity.entity_id;
 }
+
+/**
+ * Get random climate entity
+ */
+export function getClimateEntity(states: HassEntities) {
+	if (states === undefined) return;
+	const list = Object.values(states).filter((e) => e.entity_id.startsWith('climate.'));
+	return list.length ? random(list).entity_id : undefined;
+}

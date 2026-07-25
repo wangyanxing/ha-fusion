@@ -8,6 +8,7 @@
 	import DaysSince from '$lib/Main/DaysSince.svelte';
 	import Entities from '$lib/Main/Entities.svelte';
 	import SpotifyPlayer from '$lib/Main/SpotifyPlayer.svelte';
+	import Thermostat from '$lib/Main/Thermostat.svelte';
 
 	let { item, sectionName = undefined }: { item: any; sectionName?: string } = $props();
 </script>
@@ -20,6 +21,8 @@
 	<DaysSince sel={item} {sectionName} />
 {:else if item?.type === 'entities'}
 	<Entities sel={item} {sectionName} />
+{:else if item?.type === 'thermostat'}
+	<Thermostat sel={item} {sectionName} />
 {:else if item?.type === 'spotify_player'}
 	<SpotifyPlayer sel={item} {sectionName} />
 {:else if item?.type === 'spotify_player_large'}

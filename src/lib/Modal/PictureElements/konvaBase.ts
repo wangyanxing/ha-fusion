@@ -1,6 +1,6 @@
 import Konva from 'konva';
 import { get, type Unsubscriber } from 'svelte/store';
-import { konvaImageCache, states } from '$lib/Stores';
+import { konvaImageCache, states, dashboard } from '$lib/Stores';
 import type { HassEntities } from 'home-assistant-js-websocket';
 import { getIcon, loadIcon, type IconifyIcon } from '@iconify/svelte';
 import type { ContainerConfig } from 'konva/lib/Container';
@@ -85,9 +85,16 @@ export class KonvaBase {
 
 		const computedIcon = computeIcon(entity_id, $states);
 		const entityAttrs = $states?.[entity_id]?.attributes;
-		const computedStateColor = entityAttrs?.hs_color
-			? `hsl(${entityAttrs?.hs_color}%, 50%)`
-			: undefined;
+
+		// off (or unavailable) -> configurable off color; on -> hs_color if
+		// the light reports one, otherwise the user-specified `color`
+		const offColor = get(dashboard)?.state_icon_off_color || '#ffffff';
+		const isOn = $states?.[entity_id]?.state === 'on';
+		const computedStateColor = !isOn
+			? offColor
+			: entityAttrs?.hs_color
+				? `hsl(${entityAttrs?.hs_color}%, 50%)`
+				: undefined;
 
 		// custom attrs only, `image` intentionally omitted here
 		node.setAttrs({

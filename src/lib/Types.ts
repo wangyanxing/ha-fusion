@@ -26,6 +26,8 @@ export interface Dashboard {
 	hide_views?: boolean;
 	hide_sidebar?: boolean;
 	sidebarWidth?: number;
+	/** Color used for state-icons whose entity is off/unavailable */
+	state_icon_off_color?: string;
 }
 
 export interface Views {

@@ -738,7 +738,10 @@ export class KonvaEditor extends KonvaBase {
 				shapes.forEach((node) => {
 					if (!this.transformer.nodes().includes(node)) {
 						if (node instanceof Konva.Image) {
-							this.updateStateIcon(node, $states);
+							// state-image is not previewed by state in the editor
+							if (node.attrs.type !== 'state-image') {
+								this.updateStateIcon(node, $states);
+							}
 						} else if (node instanceof Konva.Text) {
 							this.updateStateLabel(node, $states);
 						}
@@ -935,7 +938,8 @@ export class KonvaEditor extends KonvaBase {
 					break;
 				case 'image':
 				case 'icon':
-				case 'state-icon': {
+				case 'state-icon':
+				case 'state-image': {
 					node = new Konva.Image(attrs);
 
 					const imageCache = get(konvaImageCache)?.[this?.selId]?.[attrs?.id];
@@ -1336,6 +1340,10 @@ export class KonvaEditor extends KonvaBase {
 			case type === 'state-label' && key === 'entity_id' && node instanceof Konva.Text:
 				node.setAttr('entity_id', value);
 				this.updateStateLabel(node, undefined);
+				break;
+
+			case type === 'state-image' && key === 'entity_id' && node instanceof Konva.Image:
+				node.setAttr('entity_id', value);
 				break;
 
 			case type === 'icon' && key === 'color' && node instanceof Konva.Image:
@@ -1909,6 +1917,48 @@ export class KonvaEditor extends KonvaBase {
 			this.handleAddNode(node);
 
 			// gray box onerror
+			await this.updateImage(node, src, false);
+		}
+	}
+
+	/**
+	 * Add state-image
+	 * - like `addImage` but bound to an entity's on/off state
+	 * - editor always shows it at full opacity for positioning
+	 */
+	public async addStateImage() {
+		const src = 'https://demo.home-assistant.io/stub_config/t-shirt-promo.png';
+
+		try {
+			const image = await this.loadImage(src);
+
+			const node = new Konva.Image({
+				type: 'state-image',
+				name: 'State Image',
+				entity_id: '',
+				image,
+				src,
+				width: image.naturalWidth || 64,
+				height: image.naturalHeight || 64,
+				draggable: true
+			});
+
+			this.handleAddNode(node);
+		} catch (err) {
+			console.error('error adding state-image:', err);
+
+			const node = new Konva.Image({
+				type: 'state-image',
+				name: 'State Image',
+				entity_id: '',
+				image: undefined,
+				src,
+				width: 100,
+				height: 100,
+				draggable: true
+			});
+
+			this.handleAddNode(node);
 			await this.updateImage(node, src, false);
 		}
 	}

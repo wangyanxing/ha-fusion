@@ -18,8 +18,8 @@
 	let mainEl = $state<HTMLElement>();
 	onMount(() => {
 		mounted = true;
-		mainEl?.addEventListener('dndreceive', handleSectionReceive);
-		return () => mainEl?.removeEventListener('dndreceive', handleSectionReceive);
+		mainEl?.addEventListener('dndreceive', handleReceive);
+		return () => mainEl?.removeEventListener('dndreceive', handleReceive);
 	});
 
 	function handleDragStart() {
@@ -92,25 +92,75 @@
 	}
 
 	/**
-	 * Handles cross-container section moves (section <-> stack).
-	 * SortableJS moved the DOM then `sortable.ts` reverted it and
-	 * dispatched `dndreceive`; here we mirror that move in the data.
-	 * Only containers tagged with `data-sections-of` participate, so
-	 * item moves (which lack the attribute) are ignored.
+	 * Recursively removes an item (by id) from any section's `.items`
+	 * array anywhere in the tree and returns it.
 	 */
-	function handleSectionReceive(event: Event) {
+	function removeItemById(sections: any[], id: string): any | undefined {
+		for (const section of sections) {
+			if (Array.isArray(section?.items)) {
+				const index = section.items.findIndex((it: any) => String(it?.id) === id);
+				if (index !== -1) return section.items.splice(index, 1)[0];
+			}
+			if (Array.isArray(section?.sections)) {
+				const found = removeItemById(section.sections, id);
+				if (found) return found;
+			}
+		}
+		return undefined;
+	}
+
+	/**
+	 * Finds a section's `.items` array by the section's id.
+	 */
+	function findSectionItems(sections: any[], id: string): any[] | undefined {
+		for (const section of sections) {
+			if (String(section?.id) === id) {
+				if (!Array.isArray(section.items)) section.items = [];
+				return section.items;
+			}
+			if (Array.isArray(section?.sections)) {
+				const found = findSectionItems(section.sections, id);
+				if (found) return found;
+			}
+		}
+		return undefined;
+	}
+
+	/**
+	 * Handles cross-container drops dispatched via `dndreceive`
+	 * (SortableJS moved the DOM, `sortable.ts` reverted it). Mirrors
+	 * the move in the data tree for both item and section moves.
+	 * The nearest tagged container decides which kind of move it is:
+	 * `data-items-of` -> item into a section, `data-sections-of` ->
+	 * section into a stack (or root).
+	 */
+	function handleReceive(event: Event) {
 		const detail = (event as CustomEvent).detail as { id: string; newIndex: number };
-		const container = (event.target as HTMLElement)?.closest('[data-sections-of]') as HTMLElement;
-		if (!container || !detail?.id) return;
+		if (!detail?.id) return;
 
-		const targetKey = container.dataset.sectionsOf;
-		if (!targetKey) return;
+		const container = (event.target as HTMLElement)?.closest(
+			'[data-items-of], [data-sections-of]'
+		) as HTMLElement | null;
+		if (!container) return;
 
-		const moved = removeSectionById(view.sections, detail.id);
-		if (!moved) return;
+		let moved: any;
+		let targetArr: any[] | undefined;
 
-		const targetArr =
-			targetKey === 'root' ? view.sections : findStackSections(view.sections, targetKey);
+		if (container.dataset.itemsOf) {
+			// item -> section
+			moved = removeItemById(view.sections, detail.id);
+			if (!moved) return;
+			targetArr = findSectionItems(view.sections, container.dataset.itemsOf);
+		} else {
+			// section -> stack / root
+			moved = removeSectionById(view.sections, detail.id);
+			if (!moved) return;
+			targetArr =
+				container.dataset.sectionsOf === 'root'
+					? view.sections
+					: findStackSections(view.sections, container.dataset.sectionsOf as string);
+		}
+
 		if (!targetArr) return;
 
 		const index = Math.max(0, Math.min(detail.newIndex ?? targetArr.length, targetArr.length));
@@ -283,6 +333,7 @@
 											<SectionHeader {view} section={nestedSection} />
 											<div
 												class="items"
+												data-items-of={String(nestedSection?.id)}
 												style={sectionStyles(stackSection?.type, $editMode, $motion, empty)}
 												use:sortable={{
 													group: 'item',
@@ -337,6 +388,7 @@
 								<SectionHeader {view} section={stackSection} />
 								<div
 									class="items"
+									data-items-of={String(stackSection?.id)}
 									style={sectionStyles(section?.type, $editMode, $motion, empty)}
 									use:sortable={{
 										group: 'item',
@@ -421,6 +473,7 @@
 							<SectionHeader {view} section={stackSection} />
 							<div
 								class="items"
+								data-items-of={String(stackSection?.id)}
 								style={sectionStyles(section?.type, $editMode, $motion, empty)}
 								use:sortable={{
 									group: 'item',
@@ -457,6 +510,7 @@
 				<SectionHeader {view} {section} />
 				<div
 					class="scenes"
+					data-items-of={String(section?.id)}
 					style={sectionStyles(section?.type, $editMode, $motion, empty)}
 					use:sortable={{
 						group: 'item',
@@ -494,6 +548,7 @@
 
 				<div
 					class="items"
+					data-items-of={String(section?.id)}
 					style={sectionStyles(section?.type, $editMode, $motion, empty)}
 					use:sortable={{
 						group: 'item',

@@ -133,7 +133,8 @@ export const demo = writable<{ [key: string]: string | undefined }>({
 	radial: undefined,
 	camera: undefined,
 	history: undefined,
-	climate: undefined
+	climate: undefined,
+	vacuum: undefined
 });
 
 // youtube_addon

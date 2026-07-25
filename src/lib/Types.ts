@@ -45,7 +45,8 @@ export type Item =
 	| DaysSinceItem
 	| EntitiesItem
 	| SpotifyPlayerItem
-	| ThermostatItem;
+	| ThermostatItem
+	| VacuumItem;
 
 export interface Section {
 	id?: number;
@@ -137,6 +138,21 @@ export interface ThermostatItem {
 	entity_id?: string; // climate.* entity
 	name?: string;
 	more_info?: boolean;
+}
+
+export interface VacuumItem {
+	type: string;
+	id: number;
+	entity_id?: string; // vacuum.* entity
+	map_entity?: string; // image.* or camera.* entity providing the map picture
+	layout?: 'detailed' | 'compact'; // detailed = map, compact = status + robot icon
+	name?: string;
+	more_info?: boolean;
+	hide_battery?: boolean;
+	// reuses the vacuum config fields already defined on ButtonItem
+	vacuum_plans?: string[];
+	vacuum_rooms?: { id: string; name: string }[];
+	vacuum_mop_intensity_entity?: string;
 }
 
 export interface SpotifyShortcut {

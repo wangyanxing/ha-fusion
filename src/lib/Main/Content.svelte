@@ -9,6 +9,7 @@
 	import Entities from '$lib/Main/Entities.svelte';
 	import SpotifyPlayer from '$lib/Main/SpotifyPlayer.svelte';
 	import Thermostat from '$lib/Main/Thermostat.svelte';
+	import Vacuum from '$lib/Main/Vacuum.svelte';
 
 	let { item, sectionName = undefined }: { item: any; sectionName?: string } = $props();
 </script>
@@ -23,6 +24,8 @@
 	<Entities sel={item} {sectionName} />
 {:else if item?.type === 'thermostat'}
 	<Thermostat sel={item} {sectionName} />
+{:else if item?.type === 'vacuum'}
+	<Vacuum sel={item} {sectionName} />
 {:else if item?.type === 'spotify_player'}
 	<SpotifyPlayer sel={item} {sectionName} />
 {:else if item?.type === 'spotify_player_large'}

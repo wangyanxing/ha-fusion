@@ -11,7 +11,8 @@
 		getCameraEntity,
 		getSensorEntity,
 		getMediaPlayerEntity,
-		getClimateEntity
+		getClimateEntity,
+		getVacuumEntity
 	} from '$lib/Modal/getRandomEntity';
 
 	import Button from '$lib/Main/Button.svelte';
@@ -25,6 +26,7 @@
 	import DaysSince from '$lib/Main/DaysSince.svelte';
 	import SpotifyPlayer from '$lib/Main/SpotifyPlayer.svelte';
 	import Thermostat from '$lib/Main/Thermostat.svelte';
+	import Vacuum from '$lib/Main/Vacuum.svelte';
 
 	let { isOpen, sel }: { isOpen: boolean; sel: any } = $props();
 
@@ -41,6 +43,7 @@
 	if (!$demo.sensor) $demo.sensor = getSensorEntity($states);
 	if (!$demo.media_player) $demo.media_player = getMediaPlayerEntity($states);
 	if (!$demo.climate) $demo.climate = getClimateEntity($states);
+	if (!$demo.vacuum) $demo.vacuum = getVacuumEntity($states);
 
 	let loadIcons: (typeof import('@iconify/svelte'))['loadIcons'];
 	let icons: Record<string, string>;
@@ -131,6 +134,14 @@
 			}
 		},
 		{
+			id: 'vacuum',
+			type: $lang('vacuum') || 'Vacuum',
+			component: Vacuum,
+			props: {
+				sel: $demo.vacuum ? { ...selected, entity_id: $demo.vacuum } : selected
+			}
+		},
+		{
 			id: 'camera',
 			type: $lang('camera'),
 			component: Camera,
@@ -216,6 +227,11 @@
 				break;
 			case 'thermostat':
 				openModal(() => import('$lib/Modal/ThermostatConfig.svelte'), {
+					sel: selected
+				});
+				break;
+			case 'vacuum':
+				openModal(() => import('$lib/Modal/VacuumConfig.svelte'), {
 					sel: selected
 				});
 				break;

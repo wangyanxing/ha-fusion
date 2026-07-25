@@ -167,3 +167,12 @@ export function getClimateEntity(states: HassEntities) {
 	const list = Object.values(states).filter((e) => e.entity_id.startsWith('climate.'));
 	return list.length ? random(list).entity_id : undefined;
 }
+
+/**
+ * Get random vacuum entity
+ */
+export function getVacuumEntity(states: HassEntities) {
+	if (states === undefined) return;
+	const list = Object.values(states).filter((e) => e.entity_id.startsWith('vacuum.'));
+	return list.length ? random(list).entity_id : undefined;
+}

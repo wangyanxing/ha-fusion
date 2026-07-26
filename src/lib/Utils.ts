@@ -242,26 +242,3 @@ export function getSupport(
 		return supports;
 	}, {});
 }
-
-/**
- * Auto-discovers UniFi Protect related entities based on a camera entity_id.
- * Matches by entity_id naming convention: camera.<base> → binary_sensor.<base>_motion, etc.
- */
-export function discoverUnifiEntities(
-	cameraEntityId: string | undefined,
-	allEntityIds: string[]
-): { motion_sensor?: string; doorbell_sensor?: string; event_sensor?: string } {
-	if (!cameraEntityId?.startsWith('camera.')) return {};
-
-	const base = cameraEntityId.substring(7); // strip 'camera.' prefix
-
-	const result: { motion_sensor?: string; doorbell_sensor?: string; event_sensor?: string } = {};
-
-	for (const id of allEntityIds) {
-		if (id === `binary_sensor.${base}_motion`) result.motion_sensor = id;
-		else if (id === `binary_sensor.${base}_doorbell`) result.doorbell_sensor = id;
-		else if (id === `sensor.${base}_event`) result.event_sensor = id;
-	}
-
-	return result;
-}

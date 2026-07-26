@@ -4,7 +4,6 @@
 	import ConfigModal from '$lib/Modal/ConfigModal.svelte';
 	import Ripple from '$lib/Actions/ripple';
 	import UnifiCamera from '$lib/Main/UnifiCamera.svelte';
-	import { discoverUnifiEntities } from '$lib/Utils';
 	import type { UnifiCameraItem } from '$lib/Types';
 
 	let {
@@ -20,25 +19,8 @@
 	let entity = $derived(sel?.entity_id ? $states?.[sel.entity_id] : undefined);
 
 	let cameraOptions = $derived($entityList('camera'));
-
-	let discovered = $derived(
-		discoverUnifiEntities(sel?.entity_id, Object.keys($states ?? {}))
-	);
-
 	let motionOptions = $derived($entityList('binary_sensor'));
-	let eventOptions = $derived($entityList('sensor'));
-
-	function handleCameraChange(
-		set: (key: string, event?: any) => void,
-		entityId: string | undefined
-	) {
-		set('entity_id', entityId);
-		// Auto-discover on camera selection
-		const found = discoverUnifiEntities(entityId, Object.keys($states ?? {}));
-		if (found.motion_sensor) set('motion_sensor', found.motion_sensor);
-		if (found.doorbell_sensor) set('doorbell_sensor', found.doorbell_sensor);
-		if (found.event_sensor) set('event_sensor', found.event_sensor);
-	}
+	let sensorOptions = $derived($entityList('sensor'));
 </script>
 
 <ConfigModal {isOpen} bind:sel title="UniFi Protect Camera" {demo}>
@@ -47,62 +29,51 @@
 
 		<UnifiCamera {sel} responsive={true} muted={true} controls={false} />
 
+		<!-- Camera entity -->
 		{#if cameraOptions}
 			<h2>{$lang('entity')}</h2>
 
 			<Select
 				computeIcons={true}
 				options={cameraOptions}
-				placeholder="Camera entity"
+				placeholder="camera.*"
 				value={entity?.entity_id}
-				onchange={(event: any) => handleCameraChange(set, event?.detail || event)}
+				onchange={(event: any) => set('entity_id', event?.detail || event)}
 			/>
 		{/if}
 
-		{#if discovered.motion_sensor || discovered.doorbell_sensor || discovered.event_sensor}
-			<h2>Auto-discovered sensors</h2>
-			<p class="discovered">
-				{#if discovered.motion_sensor}
-					Motion: <code>{discovered.motion_sensor}</code>
-				{/if}
-				{#if discovered.doorbell_sensor}
-					<br />Doorbell: <code>{discovered.doorbell_sensor}</code>
-				{/if}
-				{#if discovered.event_sensor}
-					<br />Event: <code>{discovered.event_sensor}</code>
-				{/if}
-			</p>
-		{/if}
-
+		<!-- Motion sensor -->
 		{#if motionOptions}
-			<h2>Motion sensor</h2>
+			<h2>{$lang('motion_sensor') || 'Motion sensor'}</h2>
 			<Select
 				computeIcons={true}
 				options={motionOptions}
 				placeholder="binary_sensor.*_motion"
-				value={sel?.motion_sensor || discovered.motion_sensor}
+				value={sel?.motion_sensor}
 				onchange={(event: any) => set('motion_sensor', event?.detail || event)}
 			/>
 		{/if}
 
+		<!-- Doorbell sensor -->
 		{#if motionOptions}
-			<h2>Doorbell sensor</h2>
+			<h2>{$lang('doorbell_sensor') || 'Doorbell sensor'}</h2>
 			<Select
 				computeIcons={true}
 				options={motionOptions}
 				placeholder="binary_sensor.*_doorbell"
-				value={sel?.doorbell_sensor || discovered.doorbell_sensor}
+				value={sel?.doorbell_sensor}
 				onchange={(event: any) => set('doorbell_sensor', event?.detail || event)}
 			/>
 		{/if}
 
-		{#if eventOptions}
-			<h2>Event sensor</h2>
+		<!-- Event sensor -->
+		{#if sensorOptions}
+			<h2>{$lang('event_sensor') || 'Event sensor'}</h2>
 			<Select
 				computeIcons={true}
-				options={eventOptions}
+				options={sensorOptions}
 				placeholder="sensor.*_event"
-				value={sel?.event_sensor || discovered.event_sensor}
+				value={sel?.event_sensor}
 				onchange={(event: any) => set('event_sensor', event?.detail || event)}
 			/>
 		{/if}
@@ -183,19 +154,5 @@
 <style>
 	h2:first-letter {
 		text-transform: uppercase;
-	}
-
-	.discovered {
-		font-size: 0.85rem;
-		color: var(--theme-button-state-color-off);
-		padding: 0.5rem 0;
-		line-height: 1.6;
-	}
-
-	.discovered code {
-		background: rgba(255, 255, 255, 0.08);
-		padding: 0.1rem 0.35rem;
-		border-radius: 0.2rem;
-		font-size: 0.8rem;
 	}
 </style>

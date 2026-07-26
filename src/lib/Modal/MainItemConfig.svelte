@@ -27,6 +27,7 @@
 	import SpotifyPlayer from '$lib/Main/SpotifyPlayer.svelte';
 	import Thermostat from '$lib/Main/Thermostat.svelte';
 	import Vacuum from '$lib/Main/Vacuum.svelte';
+	import UnifiCamera from '$lib/Main/UnifiCamera.svelte';
 
 	let { isOpen, sel }: { isOpen: boolean; sel: any } = $props();
 
@@ -154,6 +155,18 @@
 			}
 		},
 		{
+			id: 'unifi-camera',
+			type: 'UniFi Protect Camera',
+			component: UnifiCamera,
+			props: {
+				demo: $demo.camera,
+				sel: selected,
+				responsive: true,
+				controls: false,
+				muted: true
+			}
+		},
+		{
 			id: 'picture_elements',
 			type: $lang('picture_elements'),
 			component: PictureElements,
@@ -237,6 +250,12 @@
 				break;
 			case 'camera':
 				openModal(() => import('$lib/Modal/CameraConfig.svelte'), {
+					demo: $demo.camera,
+					sel: selected
+				});
+				break;
+			case 'unifi-camera':
+				openModal(() => import('$lib/Modal/UnifiCameraConfig.svelte'), {
 					demo: $demo.camera,
 					sel: selected
 				});

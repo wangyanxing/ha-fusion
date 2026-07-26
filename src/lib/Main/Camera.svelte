@@ -10,13 +10,15 @@
 		demo = undefined,
 		responsive,
 		muted,
-		controls
+		controls,
+		clickDisabled = false
 	}: {
 		sel: CameraItem;
 		demo?: string | undefined;
 		responsive: boolean;
 		muted: boolean;
 		controls: boolean;
+		clickDisabled?: boolean;
 	} = $props();
 
 	const debug = false;
@@ -71,7 +73,7 @@
 	 * Handle camera click
 	 */
 	function handleClick() {
-		if (responsive) return;
+		if (responsive || clickDisabled) return;
 
 		if ($editMode) {
 			openModal(() => import('$lib/Modal/CameraConfig.svelte'), { sel });

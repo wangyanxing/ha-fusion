@@ -197,7 +197,7 @@
 	}
 
 	function itemStyles(type: string) {
-		const large = ['conditional_media', 'camera', 'spotify_player_large', 'entities'];
+		const large = ['conditional_media', 'camera', 'unifi-camera', 'spotify_player_large', 'entities'];
 		if (type === 'picture_elements') {
 			return `
 			grid-column: 1 / -1;

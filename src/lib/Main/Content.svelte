@@ -3,6 +3,7 @@
 	import ConditionalMedia from '$lib/Main/ConditionalMedia.svelte';
 	import PictureElements from '$lib/Main/PictureElements.svelte';
 	import Camera from '$lib/Main/Camera.svelte';
+	import UnifiCamera from '$lib/Main/UnifiCamera.svelte';
 	import Configure from '$lib/Main/Configure.svelte';
 	import Empty from '$lib/Main/Empty.svelte';
 	import DaysSince from '$lib/Main/DaysSince.svelte';
@@ -36,6 +37,8 @@
 	<PictureElements sel={item} />
 {:else if item?.type === 'camera'}
 	<Camera sel={item} responsive={false} muted={true} controls={false} />
+{:else if item?.type === 'unifi-camera'}
+	<UnifiCamera sel={item} responsive={false} muted={true} controls={false} />
 {:else if item?.type === 'empty'}
 	<Empty sel={item} />
 {:else}

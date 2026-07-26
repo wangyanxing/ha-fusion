@@ -46,7 +46,8 @@ export type Item =
 	| EntitiesItem
 	| SpotifyPlayerItem
 	| ThermostatItem
-	| VacuumItem;
+	| VacuumItem
+	| UnifiCameraItem;
 
 export interface Section {
 	id?: number;
@@ -228,6 +229,16 @@ export interface CameraItem {
 	size?: string;
 	hide_mobile?: boolean;
 	hide_overlay?: boolean;
+}
+
+export interface UnifiCameraItem extends CameraItem {
+	type: 'unifi-camera';
+	/** binary_sensor.*_motion — auto-discovered, triggers adaptive expansion */
+	motion_sensor?: string;
+	/** binary_sensor.*_doorbell — auto-discovered, triggers doorbell pulse */
+	doorbell_sensor?: string;
+	/** sensor.*_event — auto-discovered, provides event thumbnail + type */
+	event_sensor?: string;
 }
 
 export interface EntitiesItem {

@@ -2,17 +2,14 @@
 	import Icon from '@iconify/svelte';
 	import { getName } from '$lib/Utils';
 	import type { HassEntity } from 'home-assistant-js-websocket';
-	import type { UnifiCameraItem } from '$lib/Types';
 
 	let {
 		isOnline,
 		entity,
-		sel,
 		detectionTags = []
 	}: {
 		isOnline: boolean;
 		entity: HassEntity | undefined;
-		sel: UnifiCameraItem;
 		detectionTags: { type: string; label: string; active: boolean; icon: string }[];
 	} = $props();
 </script>

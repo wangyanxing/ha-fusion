@@ -128,7 +128,7 @@
 
 	<!-- Overlay: always visible (idle state), with status dot + name + detection tags -->
 	{#if muted && !responsive}
-		<Overlay {isOnline} {entity} {sel} {detectionTags} />
+		<Overlay {isOnline} {entity} {detectionTags} />
 	{/if}
 
 	<!-- Event panel: slides up when motion/doorbell active -->

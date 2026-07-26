@@ -4,6 +4,7 @@
 	import ConfigModal from '$lib/Modal/ConfigModal.svelte';
 	import Ripple from '$lib/Actions/ripple';
 	import UnifiCamera from '$lib/Main/UnifiCamera.svelte';
+	import { discoverUnifiEntities } from '$lib/Utils';
 	import type { UnifiCameraItem } from '$lib/Types';
 
 	let {
@@ -21,6 +22,18 @@
 	let cameraOptions = $derived($entityList('camera'));
 	let motionOptions = $derived($entityList('binary_sensor'));
 	let sensorOptions = $derived($entityList('sensor'));
+
+	function handleCameraChange(
+		set: (key: string, event?: any) => void,
+		entityId: string | undefined
+	) {
+		set('entity_id', entityId);
+		// Auto-discover sensors from the same UniFi Protect camera device
+		const found = discoverUnifiEntities(entityId, Object.keys($states ?? {}));
+		if (found.motion_sensor) set('motion_sensor', found.motion_sensor);
+		if (found.doorbell_sensor) set('doorbell_sensor', found.doorbell_sensor);
+		if (found.event_sensor) set('event_sensor', found.event_sensor);
+	}
 </script>
 
 <ConfigModal {isOpen} bind:sel title="UniFi Protect Camera" {demo}>
@@ -29,7 +42,7 @@
 
 		<UnifiCamera {sel} responsive={true} muted={true} controls={false} />
 
-		<!-- Camera entity -->
+		<!-- Camera entity — auto-discovers related sensors on selection -->
 		{#if cameraOptions}
 			<h2>{$lang('entity')}</h2>
 
@@ -38,11 +51,11 @@
 				options={cameraOptions}
 				placeholder="camera.*"
 				value={entity?.entity_id}
-				onchange={(event: any) => set('entity_id', event?.detail || event)}
+				onchange={(event: any) => handleCameraChange(set, event?.detail || event)}
 			/>
 		{/if}
 
-		<!-- Motion sensor -->
+		<!-- Motion sensor (auto-filled by camera selection) -->
 		{#if motionOptions}
 			<h2>{$lang('motion_sensor') || 'Motion sensor'}</h2>
 			<Select
@@ -54,7 +67,7 @@
 			/>
 		{/if}
 
-		<!-- Doorbell sensor -->
+		<!-- Doorbell sensor (auto-filled by camera selection) -->
 		{#if motionOptions}
 			<h2>{$lang('doorbell_sensor') || 'Doorbell sensor'}</h2>
 			<Select
@@ -66,7 +79,7 @@
 			/>
 		{/if}
 
-		<!-- Event sensor -->
+		<!-- Event sensor (auto-filled by camera selection) -->
 		{#if sensorOptions}
 			<h2>{$lang('event_sensor') || 'Event sensor'}</h2>
 			<Select
@@ -128,7 +141,6 @@
 			</button>
 		</div>
 
-		<!-- only show if it's a sidebar item -->
 		{#if $dashboard?.sidebar?.find((item) => item?.id === sel?.id)}
 			<h2>{$lang('mobile')}</h2>
 			<div class="button-container">

@@ -8,6 +8,12 @@ WORKDIR /app
 # which branch/tag of the fork to build; override at build time if needed
 ARG BUILD_REF=main
 
+# Cache-bust the clone layer: fetch the latest commit SHA of BUILD_REF first.
+# When new code is pushed the SHA changes, invalidating this layer (and the
+# clone below), so Rebuild always pulls the latest code instead of reusing an
+# old cached git clone layer.
+ADD "https://api.github.com/repos/wangyanxing/ha-fusion/commits/${BUILD_REF}" /tmp/commit.json
+
 # clone, build and clear repo example data
 # --legacy-peer-deps: the app is built with pnpm; some deps still declare a
 # Svelte 4 peer that npm rejects

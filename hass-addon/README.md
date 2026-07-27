@@ -150,7 +150,28 @@ git push
 > 注意：
 > - 不 push 就 Rebuild = 拉到的还是旧代码，白重建。
 > - 只是重启（Restart）**不会**拉新代码，必须用 **Rebuild**。
-> - 改了 `hass-addon/` 里的文件（如 `config.yaml`）后，需要重新执行 [步骤 2](#步骤-2把本目录-4-个文件放到-addonsha_fusion_custom) 把文件同步到 `/addons/ha_fusion_custom/`，再 Reload / Rebuild。
+> - 改了 `hass-addon/` 里的文件（如 `config.yaml`、`Dockerfile`）后，需要重新执行 [步骤 2](#步骤-2把本目录-4-个文件放到-addonsha_fusion_custom) 把文件同步到 `/addons/ha_fusion_custom/`，再 Reload / Rebuild。
+
+### Rebuild 后看不到新代码？（Docker 层缓存）
+
+**现象**：push 了新代码、Rebuild 也成功，但功能没变化。
+
+**原因**：`Dockerfile` 里 `git clone` 那一行是固定字符串，Docker 会**复用缓存层**、跳过重新 clone，于是拉的还是上次构建时的旧代码。
+
+**已内置的修复**：本仓库 `hass-addon/Dockerfile` 在 clone 前加了一行
+`ADD https://api.github.com/repos/.../commits/main /tmp/commit.json`。
+GitHub 每次有新提交，这个响应里的 commit SHA 就会变，从而让下面的 clone 层缓存失效，Rebuild 便会真正拉取最新代码。
+
+> 前提：更新了 `Dockerfile` 后，记得把它重新同步到 `/addons/ha_fusion_custom/Dockerfile`（见步骤 2），再 Rebuild。
+
+**应急手段（不改文件，强制无缓存构建）**：SSH 终端（Protection mode 已关）执行
+```bash
+docker build --no-cache --pull \
+  --build-arg BUILD_FROM=ghcr.io/hassio-addons/base:17.1.4 \
+  -t local/ha_fusion_custom \
+  /addons/ha_fusion_custom
+```
+构建完在加载项页面点 **Restart**。
 
 ---
 

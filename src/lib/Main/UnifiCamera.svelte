@@ -4,6 +4,8 @@
 	import { openModal } from '$lib/Modals';
 	import Overlay from '$lib/Main/UnifiCamera/Overlay.svelte';
 	import EventPanel from '$lib/Main/UnifiCamera/EventPanel.svelte';
+	import UnifiCameraConfig from '$lib/Modal/UnifiCameraConfig.svelte';
+	import UnifiSnapshotModal from '$lib/Modal/UnifiSnapshotModal.svelte';
 	import type { UnifiCameraItem } from '$lib/Types';
 
 	let {
@@ -83,12 +85,12 @@
 	});
 
 	/** Derived camera config — suppress built-in overlay from Camera component.
-	 * Force stream: true because UniFi Protect entity_picture is an MJPEG proxy URL
-	 * that never fires onload in an <img> tag. HLS/WebRTC video element works correctly. */
+	 * Default stream: true because UniFi Protect entity_picture is an MJPEG proxy
+	 * URL that works best as a live stream; respect an explicit live=no choice. */
 	let cameraConfig = $derived({
 		...sel,
 		hide_overlay: true,
-		stream: true
+		stream: sel?.stream ?? true
 	});
 
 	/** Container CSS classes */
@@ -102,10 +104,14 @@
 
 	function handleClick() {
 		if (responsive) return;
+		// Use statically imported components (not `() => import(...)`): live=yes
+		// keeps MJPEG/HLS stream connections open, and with many cameras those
+		// exhaust the browser's HTTP/1.1 connection pool. A lazy import would then
+		// hang forever waiting for a free connection, leaving the modal loader spinning.
 		if ($editMode) {
-			openModal(() => import('$lib/Modal/UnifiCameraConfig.svelte'), { sel });
+			openModal(UnifiCameraConfig, { sel });
 		} else {
-			openModal(() => import('$lib/Modal/UnifiSnapshotModal.svelte'), { sel, entity });
+			openModal(UnifiSnapshotModal, { sel, entity });
 		}
 	}
 </script>
@@ -122,12 +128,12 @@
 	<!-- Stream layer: reuse existing Camera component (HLS/WebRTC/Proxy) -->
 	<!-- clickDisabled=true: Camera's internal button ignores clicks, UnifiCamera handles them -->
 	<div class="stream-layer">
-		<Camera sel={cameraConfig} {responsive} {muted} {controls} clickDisabled={true} />
+		<Camera sel={cameraConfig} {demo} {responsive} {muted} {controls} clickDisabled={true} />
 	</div>
 
 	<!-- Overlay: always visible (idle state), with status dot + name + detection tags -->
 	{#if muted && !responsive}
-		<Overlay {isOnline} {entity} {detectionTags} />
+		<Overlay {sel} {isOnline} {entity} {detectionTags} />
 	{/if}
 
 	<!-- Event panel: slides up when motion/doorbell active -->
@@ -151,7 +157,8 @@
 		box-sizing: border-box;
 		--ring-color: rgba(96, 165, 250, 0.4);
 		transition: box-shadow 400ms ease-out;
-		box-shadow: inset 0 0 0 2px transparent;
+		/* Awareness ring — idle (blue-ish tint) */
+		box-shadow: inset 0 0 0 2px rgba(96, 165, 250, 0.25);
 	}
 
 	/* Stream fills the container */
@@ -159,18 +166,6 @@
 		position: absolute;
 		inset: 0;
 		z-index: 0;
-	}
-
-	/* Click-capture sits above Camera's own button but below Overlay/EventPanel */
-	.click-capture {
-		position: absolute;
-		inset: 0;
-		z-index: 1;
-	}
-
-	/* Awareness ring — idle (blue-ish tint) */
-	.unifi-container {
-		box-shadow: inset 0 0 0 2px rgba(96, 165, 250, 0.25);
 	}
 
 	/* Awareness ring — motion detected (amber) */

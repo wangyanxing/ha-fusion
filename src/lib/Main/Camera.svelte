@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { editMode, itemHeight, states } from '$lib/Stores';
+	import { cameraStreamPaused, editMode, itemHeight, states } from '$lib/Stores';
 	import { openModal } from '$lib/Modals';
 	import Loader from '$lib/Components/Loader.svelte';
 	import { writable } from 'svelte/store';
@@ -57,7 +57,9 @@
 	});
 
 	$effect(() => {
-		if ((!muted || $stream === true) && $entity_id && !$editMode) {
+		if ($cameraStreamPaused) {
+			attachVideo = false;
+		} else if ((!muted || $stream === true) && $entity_id && !$editMode) {
 			attachVideo = true;
 		} else if ($stream === false || $stream === undefined || $entity_id) {
 			attachVideo = false;

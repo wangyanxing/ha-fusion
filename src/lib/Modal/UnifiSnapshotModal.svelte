@@ -1,7 +1,9 @@
 <script lang="ts">
 	import Modal from '$lib/Modal/Index.svelte';
 	import { getName } from '$lib/Utils';
+	import { cameraStreamPaused } from '$lib/Stores';
 	import Icon from '@iconify/svelte';
+	import { onDestroy } from 'svelte';
 	import type { HassEntity } from 'home-assistant-js-websocket';
 
 	let {
@@ -14,6 +16,11 @@
 		entity: HassEntity | undefined;
 	} = $props();
 
+	// Pause background camera streams while open so the snapshot request isn't
+	// starved by MJPEG streams holding the browser's HTTP/1.1 connections.
+	cameraStreamPaused.set(true);
+	onDestroy(() => cameraStreamPaused.set(false));
+
 	let entityPicture = $derived(entity?.attributes?.entity_picture || '');
 	let broken = $state(false);
 	let loaded = $state(false);
@@ -22,6 +29,15 @@
 	$effect(() => {
 		const interval = setInterval(() => (date = Date.now()), 30000);
 		return () => clearInterval(interval);
+	});
+
+	// UniFi Protect entity_picture may be a stream-like proxy URL whose <img>
+	// onload never fires, which would leave the spinner up and the image hidden
+	// forever. Reveal the image after a short delay as a fallback.
+	$effect(() => {
+		if (!entityPicture) return;
+		const timeout = setTimeout(() => (loaded = true), 1500);
+		return () => clearTimeout(timeout);
 	});
 </script>
 
@@ -42,7 +58,7 @@
 				</div>
 			{:else if entityPicture}
 				<img
-					src={`${entityPicture}${date ? '&ts=' + date : ''}`}
+					src={`${entityPicture}${entityPicture.includes('?') ? '&' : '?'}ts=${date}`}
 					onload={() => (loaded = true)}
 					onerror={() => (broken = true)}
 					style:display={loaded ? 'block' : 'none'}

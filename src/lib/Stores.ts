@@ -105,6 +105,11 @@ export const showDrawer = writable(false);
 export const motion = writable(190);
 export const itemHeight = readable(61.35);
 
+// When true, background camera cards should tear down their live streams so a
+// full-screen camera modal can use the browser's limited HTTP/1.1 connections
+// (many MJPEG x-mixed-replace streams otherwise exhaust the connection pool).
+export const cameraStreamPaused = writable(false);
+
 // language
 export const translation = writable<Translations>({});
 export const selectedLanguage = writable<string>();

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { editMode } from '$lib/Stores';
+	import { cameraStreamPaused, editMode } from '$lib/Stores';
 	import { onMount } from 'svelte';
 	import Broken from '$lib/Main/Camera/Broken.svelte';
 
@@ -27,7 +27,11 @@
 	let interval: ReturnType<typeof setInterval>;
 
 	let entity_picture = $derived(entity?.attributes?.entity_picture || '');
-	let proxy_stream = $derived((!muted || sel?.stream) && !stream_url && !$editMode);
+	// When paused, drop the MJPEG stream (x-mixed-replace holds a connection open)
+	// and fall back to a static snapshot so a camera modal can load.
+	let proxy_stream = $derived(
+		(!muted || sel?.stream) && !stream_url && !$editMode && !$cameraStreamPaused
+	);
 
 	function handleError(error: boolean) {
 		loaderVisible = false;
@@ -43,8 +47,10 @@
 		}, updateInterval);
 
 		// entity_picture may be an MJPEG stream URL — <img> renders it but
-		// onload may never fire. Hide loader immediately so the stream is visible.
-		loaderVisible = false;
+		// onload may never fire. Hide loader immediately for that streaming case
+		// only; static camera_proxy snapshots still wait for onload so HLS/WebRTC
+		// cameras keep their loader until the real stream is ready.
+		if (proxy_stream) loaderVisible = false;
 
 		// cleanup
 		return () => {

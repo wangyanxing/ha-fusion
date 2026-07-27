@@ -102,7 +102,10 @@
 		if ($editMode) {
 			openModal(() => import('$lib/Modal/UnifiCameraConfig.svelte'), { sel });
 		} else {
-			openModal(() => import('$lib/Modal/CameraModal.svelte'), { sel });
+			// Force stream off in full-screen — proxy image loads instantly
+			openModal(() => import('$lib/Modal/CameraModal.svelte'), {
+				sel: { ...sel, stream: false }
+			});
 		}
 	}
 </script>

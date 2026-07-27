@@ -102,11 +102,8 @@
 		if ($editMode) {
 			openModal(() => import('$lib/Modal/UnifiCameraConfig.svelte'), { sel });
 		} else {
-			// muted=true: use proxy snapshot, loads instantly — live stream is already on the card
-			openModal(() => import('$lib/Modal/CameraModal.svelte'), {
-				sel,
-				muted: true
-			});
+			// Simple snapshot modal — no stream loading, just the camera image
+			openModal(() => import('$lib/Modal/UnifiSnapshotModal.svelte'), { sel, entity });
 		}
 	}
 </script>

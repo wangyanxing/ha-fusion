@@ -14,10 +14,6 @@
 		entity: HassEntity | undefined;
 	} = $props();
 
-	console.log('[UnifiSnapshot] OPENED — entity_id:', sel?.entity_id);
-	console.log('[UnifiSnapshot] entity:', entity?.state, entity?.attributes?.entity_picture);
-	console.log('[UnifiSnapshot] frontend_stream_type:', entity?.attributes?.frontend_stream_type);
-
 	let entityPicture = $derived(entity?.attributes?.entity_picture || '');
 	let broken = $state(false);
 	let loaded = $state(false);
@@ -47,14 +43,8 @@
 			{:else if entityPicture}
 				<img
 					src={`${entityPicture}${date ? '&ts=' + date : ''}`}
-					onload={() => {
-						console.log('[UnifiSnapshot] IMG ONLOAD');
-						loaded = true;
-					}}
-					onerror={(e) => {
-						console.log('[UnifiSnapshot] IMG ONERROR', e);
-						broken = true;
-					}}
+					onload={() => (loaded = true)}
+					onerror={() => (broken = true)}
 					style:display={loaded ? 'block' : 'none'}
 					alt=""
 				/>

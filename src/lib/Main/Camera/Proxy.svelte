@@ -42,18 +42,13 @@
 			date = Date.now();
 		}, updateInterval);
 
-		// Safety timeout: hide loader after 5s even if image never fires onload (MJPEG streams)
-		const loaderTimeout = setTimeout(() => {
-			if (loaderVisible) {
-				console.log('[Proxy] loader timeout — forcing loaderVisible=false, src:', img?.src?.substring(0, 80));
-				loaderVisible = false;
-			}
-		}, 5000);
+		// entity_picture may be an MJPEG stream URL — <img> renders it but
+		// onload may never fire. Hide loader immediately so the stream is visible.
+		loaderVisible = false;
 
 		// cleanup
 		return () => {
 			clearInterval(interval);
-			clearTimeout(loaderTimeout);
 			if (img) img.src = '';
 		};
 	});

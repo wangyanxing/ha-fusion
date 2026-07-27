@@ -122,10 +122,6 @@
 		<Camera sel={cameraConfig} {responsive} {muted} {controls} clickDisabled={true} />
 	</div>
 
-	<!-- Click-capture layer: sits above Camera's button, handles click events -->
-	<!-- svelte-ignore a11y_no_static_element_interactions -->
-	<div class="click-capture" onclick={handleClick}></div>
-
 	<!-- Overlay: always visible (idle state), with status dot + name + detection tags -->
 	{#if muted && !responsive}
 		<Overlay {isOnline} {entity} {detectionTags} />

@@ -21,10 +21,15 @@
 		clickDisabled?: boolean;
 	} = $props();
 
-	const debug = false;
+	const debug = true;
 
 	let loaderVisible = $state(true);
 	let stream_url = $state<string | undefined>();
+
+	// DEBUG: trace loader state
+	$effect(() => {
+		console.log('[Camera] loaderVisible:', loaderVisible, 'entity:', entity?.entity_id, 'stream_url:', stream_url, 'frontend_stream_type:', frontend_stream_type, 'attachVideo:', attachVideo, 'muted:', muted);
+	});
 	let attachVideo = $state<boolean>(false);
 
 	let entity = $derived(

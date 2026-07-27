@@ -98,11 +98,12 @@
 	});
 
 	function handleClick() {
+		console.log('[UnifiCamera] CLICK — responsive:', responsive, 'editMode:', $editMode, 'entity_id:', sel?.entity_id);
 		if (responsive) return;
 		if ($editMode) {
 			openModal(() => import('$lib/Modal/UnifiCameraConfig.svelte'), { sel });
 		} else {
-			// Simple snapshot modal — no stream loading, just the camera image
+			console.log('[UnifiCamera] opening snapshot modal with entity:', entity?.entity_id, entity?.state, entity?.attributes?.entity_picture);
 			openModal(() => import('$lib/Modal/UnifiSnapshotModal.svelte'), { sel, entity });
 		}
 	}

@@ -130,12 +130,8 @@
 	"weather_sunny": "晴天",
 	"weather_windy": "有風",
 	"weather_windy_variant": "有風、多雲",
-	"unifi_camera": "UniFi Protect 摄像头",
-	"unifi_camera_description": "增强型 UniFi Protect 摄像头卡片，支持运动检测、智能识别标签、自适应事件面板和相关传感器自动发现。",
-	"motion_sensor": "运动传感器",
-	"doorbell_sensor": "门铃传感器",
-	"event_sensor": "事件传感器",
-	"auto_discovered": "自动发现的传感器",
-	"offline": "离线",
-	"online": "在线"
+	"unifi_camera": "UniFi Protect 攝影機",
+	"motion_sensor": "動作感測器",
+	"doorbell_sensor": "門鈴感測器",
+	"event_sensor": "事件感測器"
 }

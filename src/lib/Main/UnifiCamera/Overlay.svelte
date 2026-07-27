@@ -4,10 +4,12 @@
 	import type { HassEntity } from 'home-assistant-js-websocket';
 
 	let {
+		sel = undefined,
 		isOnline,
 		entity,
 		detectionTags = []
 	}: {
+		sel?: any;
 		isOnline: boolean;
 		entity: HassEntity | undefined;
 		detectionTags: { type: string; label: string; active: boolean; icon: string }[];
@@ -18,7 +20,7 @@
 	<div class="left">
 		<!-- online status dot -->
 		<span class="status-dot" class:online={isOnline} class:offline={!isOnline}></span>
-		<span class="name">{getName(undefined, entity)}</span>
+		<span class="name">{getName(sel, entity)}</span>
 	</div>
 
 	{#if detectionTags.length > 0}

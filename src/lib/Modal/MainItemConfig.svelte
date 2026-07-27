@@ -156,7 +156,7 @@
 		},
 		{
 			id: 'unifi-camera',
-			type: 'UniFi Protect Camera',
+			type: $lang('unifi_camera'),
 			component: UnifiCamera,
 			props: {
 				demo: $demo.camera,

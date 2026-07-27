@@ -445,11 +445,7 @@
 	"wildcard": "Wildcard",
 	"yes": "Yes",
 	"unifi_camera": "UniFi Protect Camera",
-	"unifi_camera_description": "Enhanced camera card for UniFi Protect with motion detection, smart detection tags, adaptive event panel, and auto-discovery of related sensors.",
 	"motion_sensor": "Motion sensor",
 	"doorbell_sensor": "Doorbell sensor",
-	"event_sensor": "Event sensor",
-	"auto_discovered": "Auto-discovered sensors",
-	"offline": "Offline",
-	"online": "Online"
+	"event_sensor": "Event sensor"
 }

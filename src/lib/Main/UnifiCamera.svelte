@@ -82,10 +82,13 @@
 		}));
 	});
 
-	/** Derived camera config — suppress built-in overlay from Camera component */
+	/** Derived camera config — suppress built-in overlay from Camera component.
+	 * Force stream: true because UniFi Protect entity_picture is an MJPEG proxy URL
+	 * that never fires onload in an <img> tag. HLS/WebRTC video element works correctly. */
 	let cameraConfig = $derived({
 		...sel,
-		hide_overlay: true
+		hide_overlay: true,
+		stream: true
 	});
 
 	/** Container CSS classes */

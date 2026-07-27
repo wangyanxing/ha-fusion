@@ -102,9 +102,10 @@
 		if ($editMode) {
 			openModal(() => import('$lib/Modal/UnifiCameraConfig.svelte'), { sel });
 		} else {
-			// Force stream off in full-screen — proxy image loads instantly
+			// muted=true: use proxy snapshot, loads instantly — live stream is already on the card
 			openModal(() => import('$lib/Modal/CameraModal.svelte'), {
-				sel: { ...sel, stream: false }
+				sel,
+				muted: true
 			});
 		}
 	}

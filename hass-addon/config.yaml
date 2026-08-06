@@ -1,7 +1,7 @@
 # Local Home Assistant add-on for the customized ha-fusion fork.
 # The slug is derived from the folder name for local add-ons.
 name: Fusion (Custom)
-version: "1.0.2"
+version: "1.0.3"
 slug: ha_fusion_custom
 description: My customized ha-fusion dashboard (fork)
 arch:

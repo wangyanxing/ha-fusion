@@ -197,10 +197,20 @@
 	}
 
 	function itemStyles(type: string) {
-		const large = ['conditional_media', 'camera', 'unifi-camera', 'spotify_player_large', 'entities'];
+		const large = ['conditional_media', 'spotify_player_large', 'entities'];
+		const camera = ['camera', 'unifi-camera'];
 		if (type === 'picture_elements') {
 			return `
 			grid-column: 1 / -1;
+			display: ${type ? '' : 'none'};
+    `;
+		}
+		// camera cards occupy one flexible column (see the .items:has([data-camera])
+		// rule below), so multiple cameras auto-fit two-per-row on wide screens
+		if (camera.includes(type)) {
+			return `
+			grid-column: span 1;
+			grid-row: span 4;
 			display: ${type ? '' : 'none'};
     `;
 		}
@@ -632,6 +642,12 @@
 	   instead of snapping to the fixed 14.5rem column grid */
 	.items:has(:global([data-picture-elements])) {
 		grid-template-columns: 1fr;
+	}
+
+	/* a section holding camera cards uses flexible columns so cameras auto-fit
+	   multiple per row on wide screens (e.g. two-up on a tablet/desktop) */
+	.items:has(:global([data-camera])) {
+		grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
 	}
 
 	.item {

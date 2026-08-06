@@ -120,10 +120,11 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
 	class={containerClass}
+	data-camera
 	onclick={handleClick}
 	style:cursor={$editMode || responsive ? 'unset' : 'pointer'}
 	style:height={responsive ? '100%' : 'calc(var(--theme-item-height, 61.35px) * 4 + 0.4rem * 3)'}
-	style:width={responsive ? '100%' : 'calc(14.5rem * 2 + 0.4rem)'}
+	style:width="100%"
 >
 	<!-- Stream layer: reuse existing Camera component (HLS/WebRTC/Proxy) -->
 	<!-- clickDisabled=true: Camera's internal button ignores clicks, UnifiCamera handles them -->

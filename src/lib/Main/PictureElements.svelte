@@ -97,6 +97,7 @@
 	bind:this={canvas}
 	data-picture-elements
 	style:cursor={$editMode ? 'unset' : 'default'}
+	style:margin={sel?.margin}
 	style:background-color={!sel?.elements?.length
 		? 'var(--theme-button-background-color-off)'
 		: 'transparent'}
@@ -104,9 +105,12 @@
 
 <style>
 	div {
-		width: 100%;
+		/* fill the grid track (desktop) or flex row (mobile) minus any margin;
+		   avoid width:100% so a configured margin doesn't overflow the track */
+		flex: 1 1 100%;
 		aspect-ratio: 2824 / 2228;
 		border-radius: 0.6rem;
 		overflow: hidden;
+		box-sizing: border-box;
 	}
 </style>

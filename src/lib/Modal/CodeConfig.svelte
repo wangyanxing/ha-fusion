@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { base } from '$app/paths';
-	import { dashboard, motion, lang, autocompleteList } from '$lib/Stores';
+	import { dashboard, dashboardSyncReminder, motion, lang, autocompleteList } from '$lib/Stores';
 	import { fade } from 'svelte/transition';
 	import * as parser from 'js-yaml';
 	import CodeEditor from '$lib/Components/CodeEditor.svelte';
@@ -62,6 +62,7 @@
 				// json
 				reloadView = true;
 				$dashboard = _value;
+				$dashboardSyncReminder = data.repositoryManaged === true;
 
 				// message
 				clearTimeout(timeout);

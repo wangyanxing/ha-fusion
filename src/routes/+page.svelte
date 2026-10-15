@@ -22,6 +22,7 @@
 	import { browser } from '$app/environment';
 	import { modals } from '$lib/Modals';
 	import Theme from '$lib/Components/Theme.svelte';
+	import DashboardSyncNotice from '$lib/Components/DashboardSyncNotice.svelte';
 
 	/**
 	 * Data from server-side load
@@ -258,6 +259,8 @@
 		<CustomCss.default />
 	{/await}
 </div>
+
+<DashboardSyncNotice />
 
 <style>
 	#layout {

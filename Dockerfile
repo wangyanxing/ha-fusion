@@ -16,14 +16,18 @@ FROM node:22-slim AS runner
 WORKDIR /app
 ENV PORT=5050 \
   NODE_ENV=production \
-  ADDON=false
+  ADDON=false \
+  DASHBOARD_PATH=/app/dashboard.yaml
 
 COPY --from=builder --chown=node:node /app/build ./build
 COPY --from=builder --chown=node:node /app/node_modules ./node_modules
 COPY --from=builder --chown=node:node /app/server.js .
 COPY --from=builder --chown=node:node /app/package.json .
 
-# 新命名卷继承目录权限，允许非 root 用户保存仪表盘配置
+# 布局不挂载持久卷，新容器恢复 Git 版本，普通重启保留网页修改
+COPY --from=builder --chown=node:node /app/data/dashboard.yaml ./dashboard.yaml
+
+# 新命名卷继承目录权限，允许非 root 用户保存应用设置
 RUN mkdir -p /app/data && chown node:node /app/data
 USER node
 

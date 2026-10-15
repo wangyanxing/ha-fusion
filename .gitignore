@@ -14,5 +14,6 @@ src/routes/playground
 src/lib/Playground
 /data/*
 !/data/.gitkeep
+!/data/dashboard.yaml
 logs
 .pnpm-store/v10

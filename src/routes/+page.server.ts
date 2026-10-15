@@ -39,7 +39,7 @@ export async function load({ request }): Promise<{
 	// must be loaded first
 	const [configuration, dashboard] = await Promise.all([
 		loadFile('./data/configuration.yaml'),
-		loadFile('./data/dashboard.yaml')
+		loadFile(process.env.DASHBOARD_PATH || './data/dashboard.yaml')
 	]);
 
 	// hassUrl from env or server.js

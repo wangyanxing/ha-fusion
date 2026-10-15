@@ -27,6 +27,7 @@ export const connected = writable<boolean>();
 // user
 export const configuration = writable<Configuration>();
 export const dashboard = writable<Dashboard>();
+export const dashboardSyncReminder = writable(false);
 export const customJs = writable<boolean | undefined>();
 
 /**

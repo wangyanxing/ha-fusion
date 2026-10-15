@@ -1,5 +1,14 @@
 <script lang="ts">
-	import { dashboard, editMode, motion, lang, ripple, history, historyIndex } from '$lib/Stores';
+	import {
+		dashboard,
+		dashboardSyncReminder,
+		editMode,
+		motion,
+		lang,
+		ripple,
+		history,
+		historyIndex
+	} from '$lib/Stores';
 	import { base } from '$app/paths';
 	import { modals } from '$lib/Modals';
 	import Ripple from '$lib/Actions/ripple';
@@ -21,7 +30,7 @@
 	}
 
 	/**
-	 * Saves `$dashboard` to /data/dashboard.yaml
+	 * 将 `$dashboard` 保存到配置的布局文件
 	 * and updates `dashboard` and `initial` stores
 	 */
 	async function handleClick() {
@@ -38,6 +47,7 @@
 
 			if (response.ok && data.message === 'saved') {
 				$dashboard = JSON.parse($history[$historyIndex]);
+				$dashboardSyncReminder = data.repositoryManaged === true;
 
 				// reset initial history entry
 				$history[0] = $history[$historyIndex];

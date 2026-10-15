@@ -1,0 +1,1021 @@
+views:
+  - name: 概览
+    id: 1019066822552
+    sections:
+      - type: horizontal-stack
+        sections:
+          - name: ''
+            width: 3
+            items:
+              - id: 3647091674331
+                type: picture_elements
+                margin: 0 120px 120px 0
+                elements:
+                  - attrs:
+                      id: state-sun-image-1785006017283-q5jotg9wl
+                      type: state-sun-image
+                      name: Sun Image
+                      x: 86.06822262118493
+                      'y': 15
+                      width: 2824
+                      height: 2228
+                      scaleX: 0.10547576301615799
+                      scaleY: 0.10547576301615799
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      src: /local/floorplan/618-floorplan-overcast.webp
+                      src_day: /local/floorplan/618-floorplan-overcast.webp
+                      src_dusk: /local/floorplan/618-floorplan-dusk.webp
+                      src_night: /local/floorplan/618-floorplan-night.webp
+                      sunrise_offset: 30
+                      dusk_before: 30
+                      night_after: 120
+                    className: Image
+                  - attrs:
+                      id: state-image-1784940832587-stypjcd29
+                      type: state-image
+                      name: State Image
+                      x: 86.06822262118493
+                      'y': 15
+                      width: 2824
+                      height: 2228
+                      scaleX: 0.10547576301615799
+                      scaleY: 0.10547576301615799
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      entity_id: switch.garage_light
+                      src: >-
+                        /local/floorplan/garage-light-a-3200k-subtle-overlay-2x.webp
+                    className: Image
+                  - attrs:
+                      id: state-image-1784941412101-g7ixove5t
+                      type: state-image
+                      name: State Image
+                      x: 86.06822262118493
+                      'y': 15
+                      width: 2824
+                      height: 2228
+                      scaleX: 0.10547576301615799
+                      scaleY: 0.10547576301615799
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      entity_id: switch.bedroom_front_ceiling
+                      src: >-
+                        /local/floorplan/music-office-room-light-a-3100k-overlay-2x.webp
+                    className: Image
+                  - attrs:
+                      id: state-image-1784944627223-8hlm6acpy
+                      type: state-image
+                      name: State Image
+                      x: 86.06822262118493
+                      'y': 15
+                      width: 2824
+                      height: 2228
+                      scaleX: 0.10547576301615799
+                      scaleY: 0.10547576301615799
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      entity_id: switch.smart_plug_office_sunlight
+                      src: >-
+                        /local/floorplan/music-office-honeywell-floor-lamp-light-a-4200k-overlay-2x.webp
+                    className: Image
+                  - attrs:
+                      id: state-image-1784944937014-i4qyf7sm9
+                      type: state-image
+                      name: State Image
+                      x: 86.06822262118493
+                      'y': 15
+                      width: 2824
+                      height: 2228
+                      scaleX: 0.10547576301615799
+                      scaleY: 0.10547576301615799
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      entity_id: switch.washer_smart_plug
+                      src: /local/floorplan/garage-light-b-2700k-overlay-2x.webp
+                    className: Image
+                  - attrs:
+                      id: state-image-1784945105407-2wmdqfemq
+                      type: state-image
+                      name: State Image
+                      x: 86.06822262118493
+                      'y': 15.5
+                      width: 2824
+                      height: 2228
+                      scaleX: 0.10547576301615799
+                      scaleY: 0.10547576301615799
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      entity_id: light.kitchen_ceiling
+                      src: /local/floorplan/kitchen-four-downlights-overlay-2x.webp
+                    className: Image
+                  - attrs:
+                      id: state-image-1784945262606-796ijcism
+                      type: state-image
+                      name: State Image
+                      x: 86.06822262118493
+                      'y': 15
+                      width: 2824
+                      height: 2228
+                      scaleX: 0.10547576301615799
+                      scaleY: 0.10547576301615799
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      entity_id: light.living_room_ceiling
+                      src: >-
+                        /local/floorplan/living-room-6x-light-a-3000k-overlay-2x.webp
+                    className: Image
+                  - attrs:
+                      id: state-image-1784945391461-ye1eh5jjd
+                      type: state-image
+                      name: State Image
+                      x: 86.06822262118493
+                      'y': 15
+                      width: 2824
+                      height: 2228
+                      scaleX: 0.10547576301615799
+                      scaleY: 0.10547576301615799
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      entity_id: light.kitchen_island_light
+                      src: >-
+                        /local/floorplan/kitchen-pendant-light-b-2700k-overlay-2x.webp
+                    className: Image
+                  - attrs:
+                      id: state-image-1784950176828-3tg0dp0o8
+                      type: state-image
+                      name: State Image
+                      x: 86.06822262118493
+                      'y': 15
+                      width: 2824
+                      height: 2228
+                      scaleX: 0.10547576301615799
+                      scaleY: 0.10547576301615799
+                      rotation: 0
+                      opacity: 0.7
+                      draggable: true
+                      listening: true
+                      visible: true
+                      entity_id: light.office_ceiling
+                      src: /local/floorplan/piano-room-ceiling-light-overlay.webp
+                    className: Image
+                  - attrs:
+                      id: state-image-1784950308144-gsh6y96ag
+                      type: state-image
+                      name: State Image
+                      x: 86.06822262118493
+                      'y': 15
+                      width: 2824
+                      height: 2228
+                      scaleX: 0.10547576301615799
+                      scaleY: 0.10547576301615799
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      entity_id: light.main_bedroom_recessed_light
+                      src: >-
+                        /local/floorplan/main-bedroom-4x-light-a-3100k-overlay-2x.webp
+                    className: Image
+                  - attrs:
+                      id: state-image-1784950447037-1zypq3j5g
+                      type: state-image
+                      name: State Image
+                      x: 86.06822262118493
+                      'y': 15
+                      width: 2824
+                      height: 2228
+                      scaleX: 0.10547576301615799
+                      scaleY: 0.10547576301615799
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      entity_id: switch.main_bedroom_side_ceiling_light
+                      src: >-
+                        /local/floorplan/main-bedroom-bedside-pendant-light-a-2700k-overlay-2x.webp
+                    className: Image
+                  - attrs:
+                      id: state-image-1784950567144-n4trjdxzr
+                      type: state-image
+                      name: State Image
+                      x: 86.06822262118493
+                      'y': 15
+                      width: 2824
+                      height: 2228
+                      scaleX: 0.10547576301615799
+                      scaleY: 0.10547576301615799
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      entity_id: switch.main_bedroom_ceiling_light
+                      src: >-
+                        /local/floorplan/lower-right-bedroom-light-a-3100k-overlay-2x.webp
+                    className: Image
+                  - attrs:
+                      id: state-image-1784950848038-ly1thydxg
+                      type: state-image
+                      name: State Image
+                      x: 86.06822262118493
+                      'y': 15
+                      width: 2824
+                      height: 2228
+                      scaleX: 0.10547576301615799
+                      scaleY: 0.10547576301615799
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      entity_id: switch.guest_bathroom_light
+                      src: >-
+                        /local/floorplan/central-left-bathroom-light-a-3100k-overlay-2x.webp
+                    className: Image
+                  - attrs:
+                      id: state-image-1784950860801-0eqca9z4d
+                      type: state-image
+                      name: State Image
+                      x: 86.06822262118493
+                      'y': 15
+                      width: 2824
+                      height: 2228
+                      scaleX: 0.10547576301615799
+                      scaleY: 0.10547576301615799
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      entity_id: switch.main_bath_light
+                      src: >-
+                        /local/floorplan/central-right-bathroom-light-a-3100k-overlay-2x.webp
+                    className: Image
+                  - attrs:
+                      id: state-image-1784950746615-qfyq7b3rg
+                      type: state-image
+                      name: State Image
+                      x: 86.06822262118493
+                      'y': 15
+                      width: 2824
+                      height: 2228
+                      scaleX: 0.10547576301615799
+                      scaleY: 0.10547576301615799
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      entity_id: light.bedroom_back_ceiling
+                      src: >-
+                        /local/floorplan/middle-bedroom-light-a-3100k-overlay-2x.webp
+                    className: Image
+                  - attrs:
+                      id: state-image-1784962089741-tmdl8xsvm
+                      type: state-image
+                      name: State Image
+                      x: 86.06822262118493
+                      'y': 15
+                      width: 2824
+                      height: 2228
+                      scaleX: 0.10547576301615799
+                      scaleY: 0.10547576301615799
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      entity_id: switch.piano_room_light_group
+                      src: /local/floorplan/piano-room-light-combined-overlay.webp
+                    className: Image
+                  - attrs:
+                      id: state-image-1784964120262-h0ybsdoym
+                      type: state-image
+                      name: State Image
+                      x: 86.06822262118493
+                      'y': 15
+                      width: 2824
+                      height: 2228
+                      scaleX: 0.10547576301615799
+                      scaleY: 0.10547576301615799
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      entity_id: switch.hall_light_1
+                      src: /local/floorplan/618-hallway-light1-overlay.webp
+                    className: Image
+                  - attrs:
+                      id: state-image-1784964260996-164k0is0p
+                      type: state-image
+                      name: State Image
+                      x: 86.06822262118493
+                      'y': 15
+                      width: 2824
+                      height: 2228
+                      scaleX: 0.10547576301615799
+                      scaleY: 0.10547576301615799
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      entity_id: ''
+                      src: /local/floorplan/618-hallway-light2-overlay.webp
+                    className: Image
+                  - attrs:
+                      id: state-image-1785000927877-a8amf7qwt
+                      type: state-image
+                      name: State Image
+                      x: 86.06822262118493
+                      'y': 15
+                      width: 2824
+                      height: 2228
+                      scaleX: 0.10547576301615799
+                      scaleY: 0.10547576301615799
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      entity_id: switch.smart_plug_frontdoor_light_switch
+                      src: /local/floorplan/618-entry-light-overlay.webp
+                    className: Image
+                  - attrs:
+                      id: state-image-1785004164571-50j7gq7yw
+                      type: state-image
+                      name: State Image
+                      x: 86.06822262118493
+                      'y': 15
+                      width: 2824
+                      height: 2228
+                      scaleX: 0.10547576301615799
+                      scaleY: 0.10547576301615799
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      entity_id: switch.yard_light_bedroom
+                      src: /local/floorplan/yard-light-bedroom-overlay.webp
+                    className: Image
+                  - attrs:
+                      id: state-image-1785004353723-0ffi31266
+                      type: state-image
+                      name: State Image
+                      x: 86.06822262118493
+                      'y': 15
+                      width: 2824
+                      height: 2228
+                      scaleX: 0.10547576301615799
+                      scaleY: 0.10547576301615799
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      entity_id: switch.yard_light_living
+                      src: /local/floorplan/yard-light-livingroom-overlay.webp
+                    className: Image
+                  - attrs:
+                      id: state-icon-1784941043062-5dvwmv7xd
+                      type: state-icon
+                      name: State Icon
+                      x: 132.41330413006605
+                      'y': 57.8347600687617
+                      width: 64
+                      height: 64
+                      scaleX: 0.2
+                      scaleY: 0.2
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      onclick:
+                        domain: switch
+                        service: toggle
+                        target:
+                          entity_id: switch.garage_light
+                      entity_id: switch.garage_light
+                      color: '#378ef3'
+                    className: Image
+                  - attrs:
+                      id: state-icon-1784941518577-px9mg3m2u
+                      type: state-icon
+                      name: State Icon
+                      x: 210.10727969348665
+                      'y': 207.10919540229887
+                      width: 64
+                      height: 64
+                      scaleX: 0.2
+                      scaleY: 0.2
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      onclick:
+                        domain: switch
+                        service: toggle
+                        target:
+                          entity_id: switch.bedroom_front_ceiling
+                      entity_id: switch.bedroom_front_ceiling
+                      color: '#378ef3'
+                    className: Image
+                  - attrs:
+                      id: state-icon-1784944680265-sqq90lo5o
+                      type: state-icon
+                      name: State Icon
+                      x: 227.87547892720312
+                      'y': 227.41570881226056
+                      width: 64
+                      height: 64
+                      scaleX: 0.2
+                      scaleY: 0.2
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      onclick:
+                        domain: switch
+                        service: toggle
+                        target:
+                          entity_id: switch.smart_plug_office_sunlight
+                      entity_id: switch.smart_plug_office_sunlight
+                      color: '#378ef3'
+                    className: Image
+                  - attrs:
+                      id: state-icon-1784945039906-e5mioxa5u
+                      type: state-icon
+                      name: State Icon
+                      x: 177.1091954022989
+                      'y': 78.6704980842912
+                      width: 64
+                      height: 64
+                      scaleX: 0.2
+                      scaleY: 0.2
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      onclick:
+                        domain: switch
+                        service: toggle
+                        target:
+                          entity_id: switch.washer_smart_plug
+                      entity_id: switch.washer_smart_plug
+                      color: '#378ef3'
+                    className: Image
+                  - attrs:
+                      id: state-icon-1784945183313-z2j8fqq4t
+                      type: state-icon
+                      name: State Icon
+                      x: 207.06130268199234
+                      'y': 60.39463601532568
+                      width: 64
+                      height: 64
+                      scaleX: 0.2
+                      scaleY: 0.2
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      onclick:
+                        domain: light
+                        service: toggle
+                        target:
+                          entity_id: light.kitchen_ceiling
+                      entity_id: light.kitchen_ceiling
+                      color: '#378ef3'
+                    className: Image
+                  - attrs:
+                      id: state-icon-1784945339031-ponpjtt06
+                      type: state-icon
+                      name: State Icon
+                      x: 270.42911877394647
+                      'y': 66.51340996168585
+                      width: 64
+                      height: 64
+                      scaleX: 0.2
+                      scaleY: 0.2
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      onclick:
+                        domain: light
+                        service: toggle
+                        target:
+                          entity_id: light.living_room_ceiling
+                      entity_id: light.living_room_ceiling
+                      color: '#378ef3'
+                    className: Image
+                  - attrs:
+                      id: state-icon-1784945429517-zuly3yk64
+                      type: state-icon
+                      name: State Icon
+                      x: 223.3065134099618
+                      'y': 60.3946360153257
+                      width: 64
+                      height: 64
+                      scaleX: 0.2
+                      scaleY: 0.2
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      onclick:
+                        domain: light
+                        service: toggle
+                        target:
+                          entity_id: light.kitchen_island_light
+                      entity_id: light.kitchen_island_light
+                      color: '#378ef3'
+                    className: Image
+                  - attrs:
+                      id: state-icon-1784950244713-6m4lohbg1
+                      type: state-icon
+                      name: State Icon
+                      x: 214.67624521072807
+                      'y': 150.25095785440618
+                      width: 64
+                      height: 64
+                      scaleX: 0.2
+                      scaleY: 0.2
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      onclick:
+                        domain: light
+                        service: toggle
+                        target:
+                          entity_id: light.office_ceiling
+                      entity_id: light.office_ceiling
+                      color: '#378ef3'
+                    className: Image
+                  - attrs:
+                      id: state-icon-1784950386963-vpqyy2ctk
+                      type: state-icon
+                      name: State Icon
+                      x: 337.02298850574715
+                      'y': 177.1570881226054
+                      width: 64
+                      height: 64
+                      scaleX: 0.2
+                      scaleY: 0.2
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      onclick:
+                        domain: light
+                        service: toggle
+                        target:
+                          entity_id: light.main_bedroom_recessed_light
+                      entity_id: light.main_bedroom_recessed_light
+                      color: '#378ef3'
+                    className: Image
+                  - attrs:
+                      id: state-icon-1784950512678-y345f841b
+                      type: state-icon
+                      name: State Icon
+                      x: 359.86781609195407
+                      'y': 224.36973180076632
+                      width: 64
+                      height: 64
+                      scaleX: 0.2
+                      scaleY: 0.2
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      onclick:
+                        domain: switch
+                        service: toggle
+                        target:
+                          entity_id: switch.main_bedroom_side_ceiling_light
+                      entity_id: switch.main_bedroom_side_ceiling_light
+                      color: '#378ef3'
+                    className: Image
+                  - attrs:
+                      id: state-icon-1784950675062-11ytsp791
+                      type: state-icon
+                      name: State Icon
+                      x: 337.5306513409962
+                      'y': 204.06321839080462
+                      width: 64
+                      height: 64
+                      scaleX: 0.2
+                      scaleY: 0.2
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      onclick:
+                        domain: switch
+                        service: toggle
+                        target:
+                          entity_id: switch.main_bedroom_ceiling_light
+                      entity_id: switch.main_bedroom_ceiling_light
+                      color: '#378ef3'
+                    className: Image
+                  - attrs:
+                      id: state-icon-1784950772634-tiq6p28qf
+                      type: state-icon
+                      name: State Icon
+                      x: 284.22605363984684
+                      'y': 159.89655172413794
+                      width: 64
+                      height: 64
+                      scaleX: 0.2
+                      scaleY: 0.2
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      onclick:
+                        domain: light
+                        service: toggle
+                        target:
+                          entity_id: light.bedroom_back_ceiling
+                      entity_id: light.bedroom_back_ceiling
+                      color: '#378ef3'
+                    className: Image
+                  - attrs:
+                      id: state-icon-1784950914676-9up8bofl6
+                      type: state-icon
+                      name: State Icon
+                      x: 249.19731800766283
+                      'y': 221.32375478927207
+                      width: 64
+                      height: 64
+                      scaleX: 0.2
+                      scaleY: 0.2
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      onclick:
+                        domain: switch
+                        service: toggle
+                        target:
+                          entity_id: switch.guest_bathroom_light
+                      entity_id: switch.guest_bathroom_light
+                      color: '#378ef3'
+                    className: Image
+                  - attrs:
+                      id: state-icon-1784950949868-0gfp3uop8
+                      type: state-icon
+                      name: State Icon
+                      x: 284.73371647509583
+                      'y': 222.84674329501914
+                      width: 64
+                      height: 64
+                      scaleX: 0.2
+                      scaleY: 0.2
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      onclick:
+                        domain: switch
+                        service: toggle
+                        target:
+                          entity_id: switch.main_bath_light
+                      entity_id: switch.main_bath_light
+                      color: '#378ef3'
+                    className: Image
+                  - attrs:
+                      id: state-icon-1784962179321-3zagwhz7g
+                      type: state-icon
+                      name: State Icon
+                      x: 233.45977011494256
+                      'y': 167.5114942528736
+                      width: 64
+                      height: 64
+                      scaleX: 0.2
+                      scaleY: 0.2
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      onclick:
+                        domain: switch
+                        service: toggle
+                        target:
+                          entity_id: switch.piano_room_light_group
+                      entity_id: switch.piano_room_light_group
+                      color: '#368df3'
+                    className: Image
+                  - attrs:
+                      id: state-icon-1784964163316-c84dvvmcs
+                      type: state-icon
+                      name: State Icon
+                      x: 248.18199233716487
+                      'y': 159.3888888888889
+                      width: 64
+                      height: 64
+                      scaleX: 0.2
+                      scaleY: 0.2
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      onclick:
+                        domain: switch
+                        service: toggle
+                        target:
+                          entity_id: switch.hall_light_1
+                      entity_id: switch.hall_light_1
+                      color: '#368df3'
+                    className: Image
+                  - attrs:
+                      id: state-icon-1784964210503-b01xlo5j6
+                      type: state-icon
+                      name: State Icon
+                      x: 271.0268199233717
+                      'y': 194.4176245210728
+                      width: 64
+                      height: 64
+                      scaleX: 0.2
+                      scaleY: 0.2
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      onclick:
+                        domain: switch
+                        service: toggle
+                        target:
+                          entity_id: switch.hall_light_2
+                      entity_id: switch.hall_light_2
+                      color: '#368df3'
+                    className: Image
+                  - attrs:
+                      id: state-icon-1785001117428-l01c54lbi
+                      type: state-icon
+                      name: State Icon
+                      x: 221.27586206896552
+                      'y': 115.72988505747131
+                      width: 64
+                      height: 64
+                      scaleX: 0.2
+                      scaleY: 0.2
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      onclick:
+                        domain: switch
+                        service: toggle
+                        target:
+                          entity_id: switch.smart_plug_frontdoor_light_switch
+                      entity_id: switch.smart_plug_frontdoor_light_switch
+                      color: '#368df3'
+                    className: Image
+                  - attrs:
+                      id: state-icon-1785004213627-yvtoqthhd
+                      type: state-icon
+                      name: State Icon
+                      x: 357.8371647509581
+                      'y': 167.00383141762458
+                      width: 64
+                      height: 64
+                      scaleX: 0.2
+                      scaleY: 0.2
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      onclick:
+                        domain: switch
+                        service: toggle
+                        target:
+                          entity_id: switch.yard_light_bedroom
+                      entity_id: switch.yard_light_bedroom
+                      color: '#368df3'
+                    className: Image
+                  - attrs:
+                      id: state-icon-1785004386867-ct43770al
+                      type: state-icon
+                      name: State Icon
+                      x: 299.9636015325672
+                      'y': 26.88888888888892
+                      width: 64
+                      height: 64
+                      scaleX: 0.2
+                      scaleY: 0.2
+                      rotation: 0
+                      opacity: 1
+                      draggable: true
+                      listening: true
+                      visible: true
+                      onclick:
+                        domain: switch
+                        service: toggle
+                        target:
+                          entity_id: switch.yard_light_living
+                      entity_id: switch.yard_light_living
+                      color: '#368df3'
+                    className: Image
+            id: 4328369818789
+        id: 8890750089149
+    icon: ic:outline-home
+  - name: 监控
+    id: 2025339763725
+    sections:
+      - name: ''
+        items:
+          - id: 8573054157282
+            type: unifi-camera
+            entity_id: camera.driveway_frontyard_camera_high_resolution_channel
+            motion_sensor: binary_sensor.driveway_frontyard_camera_person_detected
+            stream: true
+          - id: 5151084715801
+            type: unifi-camera
+            entity_id: camera.frontdoor_camera_high_resolution_channel
+            stream: true
+            motion_sensor: binary_sensor.frontdoor_camera_person_detected
+          - id: 2577519413462
+            type: unifi-camera
+            entity_id: camera.yard_sideyard_camera_high_resolution_channel
+            stream: true
+            motion_sensor: binary_sensor.yard_sideyard_camera_person_detected
+          - id: 5274260274895
+            type: unifi-camera
+            entity_id: camera.yard_backyard_camera_1_high_resolution_channel
+            stream: true
+            motion_sensor: binary_sensor.yard_backyard_camera_1_person_detected
+          - id: 2912004262226
+            type: unifi-camera
+            entity_id: camera.yard_backyard_camera_2_high_resolution_channel
+            stream: true
+            motion_sensor: binary_sensor.yard_backyard_camera_2_person_detected
+          - id: 6056290116725
+            type: unifi-camera
+            entity_id: camera.garage_garage_camera_high_resolution_channel
+            stream: true
+            motion_sensor: binary_sensor.garage_garage_camera_motion
+        id: 2088419376640
+    icon: material-symbols:camera
+  - name: 开关
+    id: 5478305660134
+    sections:
+      - type: horizontal-stack
+        sections:
+          - name: 琴房
+            items:
+              - id: 8602527342707
+                type: button
+                entity_id: switch.piano_room_light_group
+                displayOnly: false
+                name: 琴房灯组
+              - id: 7596579668409
+                type: button
+                entity_id: light.office_ceiling
+                displayOnly: false
+                name: 琴房吸顶灯
+              - id: 4237601960929
+                type: button
+                entity_id: binary_sensor.presence_sensor_front_office_presence
+                template:
+                  state: |-
+                    {% if is_state(entity_id, "on") %}
+                      有人
+                    {% else %}
+                      无人
+                    {% endif %}
+                displayOnly: true
+                name: 琴房人在传感器
+                icon: mdi:motion-sensor
+            id: 6699574862098
+          - name: 工作室
+            items:
+              - id: 9308120533043
+                type: button
+                entity_id: switch.bedroom_front_ceiling
+                displayOnly: false
+                name: 工作室吸顶灯
+              - id: 7467681669153
+                type: button
+                entity_id: switch.smart_plug_office_sunlight
+                displayOnly: false
+                name: 工作室大路灯
+              - id: 3763822754338
+                type: button
+                entity_id: binary_sensor.presence_sensor_bedroom_front_presence_sensor_1
+                displayOnly: true
+                template:
+                  state: |-
+                    {% if is_state(entity_id, "on") %}
+                      有人
+                    {% else %}
+                      无人
+                    {% endif %}
+                icon: mdi:motion-sensor
+                name: 工作室人在传感器
+            id: 7507976626796
+        id: 1304278753897
+      - type: vertical-stack
+        sections:
+          - name: Section
+            items:
+              - id: 3874546612329
+                type: vacuum
+                layout: compact
+                entity_id: vacuum.trump
+                name: 扫地机器人
+              - id: 7444068898622
+                type: thermostat
+                entity_id: climate.my_ecobee
+                name: 空调
+            id: 7307313799057
+        id: 7939076588518
+    icon: material-symbols-light:switch-sharp
+sidebar:
+  - id: 5858089713826
+    type: time
+    hour12: true
+  - id: 5814627030489
+    type: date
+    short_day: false
+    short_month: false
+    hide: none
+    layout: horizontal
+  - id: 5655647300267
+    type: divider
+  - id: 2692606956273
+    type: weather_forecast
+    entity_id: weather.forecast_home
+    days_to_show: 5
+  - id: 5831526412808
+    type: divider
+    hide_mobile: true
+  - id: 5495050223875
+    type: navigate
+    hide_mobile: true
+  - id: 7966405034998
+    type: divider
+  - id: 7470313962273
+    type: graph
+    entity_id: sensor.my_ecobee_current_temperature
+    name: 室内温度
+    period: day
+    stroke: 1
+  - id: 7060043412194
+    type: graph
+    entity_id: sensor.my_ecobee_current_humidity
+    stroke: 1
+    name: 室内湿度
+theme: muted
+hide_views: false
+hide_sidebar: false
+sidebarWidth: 280
+state_icon_off_color: '#ffffff'

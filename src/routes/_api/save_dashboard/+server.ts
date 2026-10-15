@@ -15,8 +15,8 @@ export const POST: RequestHandler = async ({ request }) => {
 	}
 
 	try {
-		await writeFile('./data/dashboard.yaml', data);
-		return json({ message: 'saved' });
+		await writeFile(process.env.DASHBOARD_PATH || './data/dashboard.yaml', data);
+		return json({ message: 'saved', repositoryManaged: Boolean(process.env.DASHBOARD_PATH) });
 	} catch (err: any) {
 		error(500, err.message);
 	}

@@ -64,7 +64,7 @@
 	);
 </script>
 
-<nav>
+<nav class:hidden={!$editMode && $dashboard?.hide_views}>
 	<!-- only show if there are views and (editMode || !hide_views) -->
 	{#if $dashboard.views.length === 0 ? false : $editMode ? true : !$dashboard?.hide_views}
 		<section transition:slide={{ duration: $motion }}>
@@ -151,6 +151,10 @@
 		margin-top: 1.35rem;
 		grid-area: nav;
 		padding: 0 2rem;
+	}
+
+	nav.hidden {
+		display: none;
 	}
 
 	section {

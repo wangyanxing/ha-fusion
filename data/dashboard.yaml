@@ -865,6 +865,160 @@ views:
                       entity_id: switch.yard_light_living
                       color: '#368df3'
                     className: Image
+                  - attrs:
+                      id: shortcut-all-lights-off
+                      type: rectangle
+                      name: 全部关灯
+                      x: 89.54344703770198
+                      'y': 180.1
+                      width: 69.8
+                      height: 19.8
+                      cornerRadius: 2
+                      fill: '#2a3032'
+                      stroke: '#4a5355'
+                      strokeWidth: 0.2
+                      onclick:
+                        domain: homeassistant
+                        service: turn_off
+                        data:
+                          entity_id:
+                            - switch.garage_light
+                            - switch.bedroom_front_ceiling
+                            - switch.smart_plug_office_sunlight
+                            - switch.washer_smart_plug
+                            - light.kitchen_ceiling
+                            - light.living_room_ceiling
+                            - light.kitchen_island_light
+                            - light.office_ceiling
+                            - light.main_bedroom_recessed_light
+                            - switch.main_bedroom_side_ceiling_light
+                            - switch.main_bedroom_ceiling_light
+                            - light.bedroom_back_ceiling
+                            - switch.guest_bathroom_light
+                            - switch.main_bath_light
+                            - switch.piano_room_light_group
+                            - switch.hall_light_1
+                            - switch.hall_light_2
+                            - switch.smart_plug_frontdoor_light_switch
+                            - switch.yard_light_bedroom
+                            - switch.yard_light_living
+                    className: Rect
+                  - attrs:
+                      id: shortcut-all-lights-off-icon
+                      type: icon
+                      name: 全部关灯图标
+                      x: 94.94344703770198
+                      'y': 186
+                      width: 8
+                      height: 8
+                      icon: mdi:lightbulb-group-off-outline
+                      color: '#e4e7e6'
+                      listening: false
+                    className: Image
+                  - attrs:
+                      id: shortcut-all-lights-off-title
+                      type: text
+                      name: 全部关灯标题
+                      x: 108.44344703770198
+                      'y': 184
+                      width: 47
+                      height: 6
+                      text: 全部关灯
+                      fontFamily: Inter Variable, system-ui, sans-serif
+                      fontSize: 4.2
+                      fontStyle: bold
+                      fill: '#e4e7e6'
+                      listening: false
+                    className: Text
+                  - attrs:
+                      id: shortcut-all-lights-off-description
+                      type: text
+                      name: 全部关灯范围
+                      x: 108.44344703770198
+                      'y': 192
+                      width: 47
+                      height: 4
+                      text: 关闭图上所有灯
+                      fontFamily: Inter Variable, system-ui, sans-serif
+                      fontSize: 2.7
+                      fill: '#b6bec0'
+                      listening: false
+                    className: Text
+                  - attrs:
+                      id: shortcut-other-lights-off
+                      type: rectangle
+                      name: 其他区域关灯
+                      x: 89.54344703770198
+                      'y': 205.1
+                      width: 69.8
+                      height: 19.8
+                      cornerRadius: 2
+                      fill: '#2a3032'
+                      stroke: '#4a5355'
+                      strokeWidth: 0.2
+                      onclick:
+                        domain: homeassistant
+                        service: turn_off
+                        data:
+                          entity_id:
+                            - switch.garage_light
+                            - switch.bedroom_front_ceiling
+                            - switch.smart_plug_office_sunlight
+                            - switch.washer_smart_plug
+                            - light.kitchen_ceiling
+                            - light.living_room_ceiling
+                            - light.kitchen_island_light
+                            - light.office_ceiling
+                            - light.bedroom_back_ceiling
+                            - switch.guest_bathroom_light
+                            - switch.piano_room_light_group
+                            - switch.hall_light_1
+                            - switch.hall_light_2
+                            - switch.smart_plug_frontdoor_light_switch
+                            - switch.yard_light_bedroom
+                            - switch.yard_light_living
+                    className: Rect
+                  - attrs:
+                      id: shortcut-other-lights-off-icon
+                      type: icon
+                      name: 其他区域关灯图标
+                      x: 94.94344703770198
+                      'y': 211
+                      width: 8
+                      height: 8
+                      icon: mdi:weather-night
+                      color: '#e4e7e6'
+                      listening: false
+                    className: Image
+                  - attrs:
+                      id: shortcut-other-lights-off-title
+                      type: text
+                      name: 其他区域关灯标题
+                      x: 108.44344703770198
+                      'y': 209
+                      width: 47
+                      height: 6
+                      text: 其他区域关灯
+                      fontFamily: Inter Variable, system-ui, sans-serif
+                      fontSize: 4.2
+                      fontStyle: bold
+                      fill: '#e4e7e6'
+                      listening: false
+                    className: Text
+                  - attrs:
+                      id: shortcut-other-lights-off-description
+                      type: text
+                      name: 其他区域关灯范围
+                      x: 108.44344703770198
+                      'y': 217
+                      width: 47
+                      height: 4
+                      text: 主卧、主卫保持原状
+                      fontFamily: Inter Variable, system-ui, sans-serif
+                      fontSize: 2.7
+                      fill: '#b6bec0'
+                      listening: false
+                    className: Text
             id: 4328369818789
         id: 8890750089149
     icon: ic:outline-home
@@ -1015,7 +1169,7 @@ sidebar:
     stroke: 1
     name: 室内湿度
 theme: muted
-hide_views: false
+hide_views: true
 hide_sidebar: false
 sidebarWidth: 280
 state_icon_off_color: '#ffffff'

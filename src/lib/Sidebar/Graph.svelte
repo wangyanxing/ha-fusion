@@ -17,6 +17,9 @@
 		stroke?: number;
 	} = $props();
 
+	const componentId = $props.id();
+	const gradientId = `area-gradient-${componentId}`;
+
 	let width = $state<number>();
 	let height = $state<number>();
 	let chartData = $state<any[]>([]);
@@ -202,9 +205,9 @@
 	>
 		<svg width="100%" height="100%">
 			<defs>
-				<linearGradient id="area-gradient" gradientTransform="rotate(90)">
-					<stop offset="0%" stop-color="rgb(255, 255, 255, 0.5)" />
-					<stop offset="100%" stop-color="rgb(255, 255, 255, 0)" />
+				<linearGradient id={gradientId} x1="0%" y1="0%" x2="0%" y2="100%">
+					<stop offset="0%" stop-color="#ffffff" stop-opacity="0.5" />
+					<stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
 				</linearGradient>
 			</defs>
 			{#if !_line?.includes('NaN')}
@@ -216,7 +219,8 @@
 				/>
 				<path
 					d={_area}
-					style={`fill: url(#area-gradient); transition: d ${isResizing ? '0ms' : '190ms'} ease`}
+					fill={`url(#${gradientId})`}
+					style={`transition: d ${isResizing ? '0ms' : '190ms'} ease`}
 				/>
 			{/if}
 		</svg>

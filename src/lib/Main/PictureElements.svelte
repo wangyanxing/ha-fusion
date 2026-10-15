@@ -109,8 +109,19 @@
 		   avoid width:100% so a configured margin doesn't overflow the track */
 		flex: 1 1 100%;
 		aspect-ratio: 2824 / 2228;
+		contain: inline-size;
 		border-radius: 0.6rem;
 		overflow: hidden;
 		box-sizing: border-box;
+	}
+
+	@media (min-width: 769px) {
+		:global(main.floorplan-view) div {
+			/* 全高模式取消配置外边距，避免右侧和底部被预留空白。 */
+			margin: 0 !important;
+			aspect-ratio: auto;
+			min-width: 0;
+			min-height: 0;
+		}
 	}
 </style>

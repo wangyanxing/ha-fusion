@@ -228,10 +228,30 @@
 					typeof $mediaQueries === 'object' &&
 					handleVisibility($editMode, view?.sections, $states)
 	);
+
+	let floorplanView = $derived.by(() => {
+		if ($editMode) return false;
+
+		let sections = viewSections;
+		while (sections?.length === 1) {
+			const section = sections[0];
+			if (['horizontal-stack', 'vertical-stack'].includes(section?.type)) {
+				sections = section.sections;
+			} else {
+				return (
+					section?.type !== 'scenes' &&
+					section?.items?.length === 1 &&
+					section.items[0]?.type === 'picture_elements'
+				);
+			}
+		}
+		return false;
+	});
 </script>
 
 <main
 	bind:this={mainEl}
+	class:floorplan-view={floorplanView}
 	data-sections-of="root"
 	style:transition="opacity {$motion}ms ease, outline-color {$motion}ms ease"
 	style:opacity={$editMode && view?.sections.length === 0 ? '0' : '1'}
@@ -655,6 +675,50 @@
 		border-radius: 0.65rem;
 	}
 
+	@media (min-width: 769px) {
+		main.floorplan-view {
+			min-width: 0;
+			min-height: 0;
+			padding: 0 1rem 1rem;
+			grid-template-rows: minmax(0, 1fr);
+			align-content: stretch;
+		}
+
+		.floorplan-view section {
+			min-width: 0;
+			min-height: 0;
+			grid-template-rows: minmax(0, 1fr);
+			align-content: stretch;
+		}
+
+		.floorplan-view section:has(> :global(header)) {
+			grid-template-rows: auto minmax(0, 1fr);
+		}
+
+		.floorplan-view .horizontal-stack,
+		.floorplan-view .vertical-stack {
+			min-height: 0 !important;
+			grid-template-rows: minmax(0, 1fr);
+			padding: 0;
+			gap: 0;
+		}
+
+		.floorplan-view .items {
+			min-height: 0;
+			height: auto;
+			grid-template-columns: minmax(0, 1fr);
+			grid-template-rows: minmax(0, 1fr);
+		}
+
+		.floorplan-view .item {
+			display: grid;
+			min-width: 0;
+			min-height: 0;
+			grid-template-columns: minmax(0, 1fr);
+			grid-template-rows: minmax(0, 1fr);
+		}
+	}
+
 	/* Phone and Tablet (portrait) */
 	@media all and (max-width: 768px) {
 		main {
@@ -669,6 +733,11 @@
 		.items {
 			display: flex;
 			flex-wrap: wrap;
+		}
+
+		.item:has(:global([data-picture-elements])) {
+			flex: 1 1 100%;
+			min-width: 0;
 		}
 	}
 

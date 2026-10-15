@@ -273,6 +273,18 @@
 		overflow: hidden;
 	}
 
+	@media (min-width: 769px) {
+		#layout:has(> :global(main.floorplan-view)) {
+			height: 100dvh;
+			min-height: 0;
+		}
+
+		#layout:has(> :global(main.floorplan-view)) > :global(aside) {
+			min-height: 0;
+			overflow-y: auto;
+		}
+	}
+
 	@media (max-width: 768px) {
 		#layout {
 			display: grid;

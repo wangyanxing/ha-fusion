@@ -104,9 +104,8 @@ export class KonvaViewer extends KonvaBase {
 	}
 
 	/**
-	 * Scales and centers the layer so all content fits (contain)
-	 * inside the stage regardless of the size it was authored at.
-	 * Scaling the layer keeps every element's relative alignment.
+	 * 等比例缩放整层以完整显示内容，保持所有元素的相对位置。
+	 * 桌面全高视图靠左对齐，其他视图保持居中。
 	 */
 	public fitContent() {
 		if (!this.layer || !this.stage) return;
@@ -127,10 +126,13 @@ export class KonvaViewer extends KonvaBase {
 		const stageHeight = this.stage.height();
 
 		const scale = Math.min(stageWidth / box.width, stageHeight / box.height);
+		const alignLeft =
+			this.stage.container().closest('main.floorplan-view') &&
+			window.matchMedia('(min-width: 769px)').matches;
 
 		this.layer.scale({ x: scale, y: scale });
 		this.layer.position({
-			x: (stageWidth - box.width * scale) / 2 - box.x * scale,
+			x: (alignLeft ? 0 : (stageWidth - box.width * scale) / 2) - box.x * scale,
 			y: (stageHeight - box.height * scale) / 2 - box.y * scale
 		});
 

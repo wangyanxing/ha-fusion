@@ -1,28 +1,27 @@
 services:
   ha-fusion:
-    container_name: ha-fusion
-    image: ghcr.io/knowald/ha-fusion
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
     volumes:
-      # Mount data directory for persistent dashboard configurations
-      # Update this path to your desired data directory
-      - ${DATA_PATH:-./data}:/app/data
-    networks:
-      - ha-fusion-network
+      - ha-fusion-data:/app/data
     ports:
       - '${EXPOSED_PORT:-5050}:5050'
     environment:
-      TZ: ${TZ:-UTC}
-      HASS_URL: ${HASS_URL}
+      TZ: ${TZ:-Asia/Shanghai}
+      HASS_URL: ${HASS_URL:?请设置平板和容器均可访问的 HA 地址}
+      ORIGIN: ${ORIGIN:-}
       PORT: 5050
       NODE_ENV: production
-    restart: always
+      ADDON: 'false'
+    restart: unless-stopped
     healthcheck:
-      test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:5050']
+      test: ['CMD', 'node', '-e', 'fetch("http://127.0.0.1:5050").then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))']
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
 
-networks:
-  ha-fusion-network:
-    driver: bridge
+volumes:
+  ha-fusion-data:

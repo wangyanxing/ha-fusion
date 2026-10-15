@@ -1,35 +1,31 @@
-# first stage, can't use alpine for building armv7
-FROM node:22 AS builder
+# syntax=docker/dockerfile:1
+
+# 安装依赖，利用锁文件缓存构建层
+FROM node:22-slim AS deps
 WORKDIR /app
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+RUN npm install -g pnpm@10 && pnpm install --frozen-lockfile
 
-# copy package files first for better layer caching
-COPY package.json pnpm-lock.yaml* pnpm-workspace.yaml* ./
-
-# install pnpm and dependencies
-RUN npm install -g pnpm && \
-  pnpm install
-
-# copy source files
+# 构建 SvelteKit 并移除开发依赖
+FROM deps AS builder
 COPY . .
+RUN pnpm run build && pnpm prune --prod
 
-# build and prune dev dependencies
-RUN pnpm run build && \
-  pnpm prune --prod
-
-# second stage
-FROM node:22-alpine
+# 运行阶段与构建阶段使用相同系统，避免原生依赖不兼容
+FROM node:22-slim AS runner
 WORKDIR /app
-
-# copy files to /app
-COPY --from=builder /app/build ./build
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/server.js .
-COPY --from=builder /app/package.json .
-
-# set environment
 ENV PORT=5050 \
   NODE_ENV=production \
   ADDON=false
+
+COPY --from=builder --chown=node:node /app/build ./build
+COPY --from=builder --chown=node:node /app/node_modules ./node_modules
+COPY --from=builder --chown=node:node /app/server.js .
+COPY --from=builder --chown=node:node /app/package.json .
+
+# 新命名卷继承目录权限，允许非 root 用户保存仪表盘配置
+RUN mkdir -p /app/data && chown node:node /app/data
+USER node
 
 EXPOSE 5050
 CMD ["node", "server.js"]

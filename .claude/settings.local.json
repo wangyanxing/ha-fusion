@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx svelte-check *)",
+      "Bash(git add *)",
+      "Bash(git commit -m 'feat: add UnifiCameraItem type and discoverUnifiEntities helper *)",
+      "Bash(git commit -m 'feat: add UnifiCamera Overlay and EventPanel sub-components *)",
+      "Bash(git commit -m 'feat: add clickDisabled prop to Camera, add UnifiCamera main component *)",
+      "Bash(git checkout *)",
+      "Bash(python3 *)",
+      "Bash(git commit -m 'feat: wire unifi-camera card type into Content router and grid *)",
+      "Bash(git commit -m 'feat: add UnifiCamera config modal with auto-discovery *)",
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('static/translations/en.json','utf8'\\)\\); console.log\\('en: OK'\\)\")",
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('static/translations/zh.json','utf8'\\)\\); console.log\\('zh: OK'\\)\")",
+      "Bash(git commit -m 'feat: add UniFi Protect camera translation keys \\(en + zh\\) *)",
+      "Bash(npx eslint *)",
+      "Bash(npm run *)",
+      "Bash(git commit -m 'chore: lint fixes for UniFi camera *)",
+      "Bash(git commit -m 'feat: add unifi-camera to MainItemConfig card type picker *)",
+      "Bash(git commit -m 'fix: remove unreliable name-based auto-discovery, use manual sensor selection *)",
+      "Bash(git commit -m 'feat: restore auto-discovery — sensors belong to the same camera device *)",
+      "Bash(git commit -m 'fix: remove redundant click-capture div that caused double-click *)",
+      "Bash(git commit -m 'fix: force proxy image in full-screen modal for instant load *)",
+      "Bash(git commit -m 'fix: camera modal accepts muted prop, UnifiCamera uses proxy for instant full-screen *)",
+      "Bash(git commit -m 'fix: use simple snapshot modal for UnifiCamera full-screen, bypass Camera stream loading *)",
+      "Bash(git commit -m 'debug: add logging to trace the loading spinner source *)",
+      "Bash(git commit -m 'fix: force HLS stream for UnifiCamera + 5s loader timeout as fallback *)",
+      "Bash(git commit -m 'fix: hide loader immediately in Proxy — MJPEG camera_proxy URLs never fire img.onload *)"
+    ]
+  }
+}

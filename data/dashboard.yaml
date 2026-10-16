@@ -947,7 +947,7 @@ views:
                   - attrs:
                       id: shortcut-other-lights-off
                       type: rectangle
-                      name: 其他区域关灯
+                      name: 主卧以外关灯
                       x: 89.54344703770198
                       'y': 205.1
                       width: 69.8
@@ -981,7 +981,7 @@ views:
                   - attrs:
                       id: shortcut-other-lights-off-icon
                       type: icon
-                      name: 其他区域关灯图标
+                      name: 主卧以外关灯图标
                       x: 94.94344703770198
                       'y': 211
                       width: 8
@@ -993,12 +993,12 @@ views:
                   - attrs:
                       id: shortcut-other-lights-off-title
                       type: text
-                      name: 其他区域关灯标题
+                      name: 主卧以外关灯标题
                       x: 108.44344703770198
                       'y': 209
                       width: 47
                       height: 6
-                      text: 其他区域关灯
+                      text: 主卧以外关灯
                       fontFamily: Inter Variable, system-ui, sans-serif
                       fontSize: 4.2
                       fontStyle: bold
@@ -1008,7 +1008,7 @@ views:
                   - attrs:
                       id: shortcut-other-lights-off-description
                       type: text
-                      name: 其他区域关灯范围
+                      name: 主卧以外关灯范围
                       x: 108.44344703770198
                       'y': 217
                       width: 47

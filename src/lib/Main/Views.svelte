@@ -21,6 +21,16 @@
 	let buttons: { [key: number]: HTMLButtonElement } = {};
 	let width = $state<number>(0);
 	let left = $state<number>(0);
+	let viewportWidth = $state(0);
+	let viewsHidden = $derived(
+		$dashboard?.hide_views &&
+			!(
+				viewportWidth > 0 &&
+				viewportWidth <= 768 &&
+				($dashboard?.hide_sidebar ||
+					!$dashboard?.sidebar?.some((item) => item.type === 'navigate' && !item.hide_mobile))
+			)
+	);
 
 	/**
 	 * Compute width and left values on active view-button
@@ -64,9 +74,11 @@
 	);
 </script>
 
-<nav class:hidden={!$editMode && $dashboard?.hide_views}>
+<svelte:window bind:innerWidth={viewportWidth} />
+
+<nav class:hidden={!$editMode && viewsHidden}>
 	<!-- only show if there are views and (editMode || !hide_views) -->
-	{#if $dashboard.views.length === 0 ? false : $editMode ? true : !$dashboard?.hide_views}
+	{#if $dashboard.views.length > 0 && ($editMode || !viewsHidden)}
 		<section transition:slide={{ duration: $motion }}>
 			{#if $editMode}
 				<EditViewButton
@@ -77,7 +89,7 @@
 				/>
 			{/if}
 
-			{#if $dashboard?.hide_views}
+			{#if $editMode && $dashboard?.hide_views}
 				<EyeIndicator bind:eyeWidth />
 			{/if}
 

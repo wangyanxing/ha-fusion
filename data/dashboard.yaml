@@ -1133,6 +1133,15 @@ views:
             id: 7307313799057
         id: 7939076588518
     icon: material-symbols-light:switch-sharp
+  - name: 相册
+    id: 8193472601501
+    icon: mdi:image-multiple-outline
+    sections:
+      - id: 8193472601502
+        name: ''
+        items:
+          - id: 8193472601503
+            type: immich_album
 sidebar:
   - id: 5858089713826
     type: time

@@ -11,6 +11,9 @@ services:
     environment:
       TZ: ${TZ:-Asia/Shanghai}
       HASS_URL: ${HASS_URL:?请设置平板和容器均可访问的 HA 地址}
+      IMMICH_URL: ${IMMICH_URL:-}
+      IMMICH_API_KEY: ${IMMICH_API_KEY:-}
+      IMMICH_ALBUM_ID: ${IMMICH_ALBUM_ID:-}
       ORIGIN: ${ORIGIN:-}
       PORT: 5050
       NODE_ENV: production

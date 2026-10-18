@@ -199,7 +199,7 @@
 	function itemStyles(type: string) {
 		const large = ['conditional_media', 'spotify_player_large', 'entities'];
 		const camera = ['camera', 'unifi-camera'];
-		if (type === 'picture_elements') {
+		if (type === 'picture_elements' || type === 'immich_album') {
 			return `
 			grid-column: 1 / -1;
 			display: ${type ? '' : 'none'};
@@ -229,6 +229,13 @@
 					handleVisibility($editMode, view?.sections, $states)
 	);
 
+	let albumView = $derived(
+		!$editMode &&
+			viewSections?.length === 1 &&
+			viewSections[0]?.items?.length === 1 &&
+			viewSections[0].items[0]?.type === 'immich_album'
+	);
+
 	let floorplanView = $derived.by(() => {
 		if ($editMode) return false;
 
@@ -252,6 +259,7 @@
 <main
 	bind:this={mainEl}
 	class:floorplan-view={floorplanView}
+	class:album-view={albumView}
 	data-sections-of="root"
 	style:transition="opacity {$motion}ms ease, outline-color {$motion}ms ease"
 	style:opacity={$editMode && view?.sections.length === 0 ? '0' : '1'}
@@ -660,7 +668,8 @@
 
 	/* a section holding a picture-elements fills the whole width
 	   instead of snapping to the fixed 14.5rem column grid */
-	.items:has(:global([data-picture-elements])) {
+	.items:has(:global([data-picture-elements])),
+	.items:has(:global([data-immich-album])) {
 		grid-template-columns: 1fr;
 	}
 
@@ -739,6 +748,33 @@
 			flex: 1 1 100%;
 			min-width: 0;
 		}
+	}
+
+	main.album-view {
+		--album-height: 100%;
+		padding: 0;
+		min-width: 0;
+		min-height: 0;
+		grid-template-rows: minmax(0, 1fr);
+		align-content: stretch;
+		gap: 0;
+	}
+
+	.album-view section,
+	.album-view .items,
+	.album-view .item {
+		display: grid;
+		min-width: 0;
+		min-height: 0 !important;
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-rows: minmax(0, 1fr);
+		align-content: stretch;
+		gap: 0;
+		border-radius: 0;
+	}
+
+	.album-view section > :global(header) {
+		display: none;
 	}
 
 	.scenes {

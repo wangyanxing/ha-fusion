@@ -273,6 +273,16 @@
 		overflow: hidden;
 	}
 
+	#layout:has(> :global(main.album-view)) {
+		height: 100dvh;
+		min-height: 0;
+	}
+
+	#layout:has(> :global(main.album-view)) > :global(aside) {
+		min-height: 0;
+		overflow-y: auto;
+	}
+
 	@media (min-width: 769px) {
 		#layout:has(> :global(main.floorplan-view)) {
 			height: 100dvh;
@@ -296,6 +306,24 @@
 			min-height: 100vh;
 			overflow: hidden;
 			grid-template-rows: auto auto auto 1fr !important;
+		}
+
+		#layout:has(> :global(main.album-view)) {
+			grid-template-areas: 'header header' 'nav nav' 'main main';
+			grid-template-rows: auto auto minmax(0, 1fr) !important;
+		}
+
+		#layout:has(> :global(main.album-view)) > :global(aside) {
+			display: none;
+		}
+
+		#layout:has(> :global(main.album-view)) > :global(nav) {
+			margin-top: 0;
+			padding-top: 0.75rem;
+		}
+
+		#layout:has(> :global(main.album-view)) > :global(nav > section) {
+			margin-bottom: 0.75rem;
 		}
 	}
 </style>

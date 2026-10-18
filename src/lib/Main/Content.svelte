@@ -11,6 +11,7 @@
 	import SpotifyPlayer from '$lib/Main/SpotifyPlayer.svelte';
 	import Thermostat from '$lib/Main/Thermostat.svelte';
 	import Vacuum from '$lib/Main/Vacuum.svelte';
+	import ImmichAlbum from '$lib/Main/ImmichAlbum.svelte';
 
 	let { item, sectionName = undefined }: { item: any; sectionName?: string } = $props();
 </script>
@@ -39,6 +40,8 @@
 	<Camera sel={item} responsive={false} muted={true} controls={false} />
 {:else if item?.type === 'unifi-camera'}
 	<UnifiCamera sel={item} responsive={false} muted={true} controls={false} />
+{:else if item?.type === 'immich_album'}
+	<ImmichAlbum />
 {:else if item?.type === 'empty'}
 	<Empty sel={item} />
 {:else}

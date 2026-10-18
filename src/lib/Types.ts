@@ -47,7 +47,13 @@ export type Item =
 	| SpotifyPlayerItem
 	| ThermostatItem
 	| VacuumItem
-	| UnifiCameraItem;
+	| UnifiCameraItem
+	| ImmichAlbumItem;
+
+export interface ImmichAlbumItem {
+	id?: number;
+	type: 'immich_album';
+}
 
 export interface Section {
 	id?: number;
